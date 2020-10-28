@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_patients"
+        android:icon="@drawable/ic_baseline_hotel_24"
+        android:title="@string/nav_title_patients"/>
+    <item
+        android:id="@+id/nav_tasks"
+        android:icon="@drawable/ic_baseline_assignment_24"
+        android:title="@string/nav_title_tasks"/>
+    <item
+        android:id="@+id/nav_discharge"
+        android:icon="@drawable/ic_baseline_directions_run_24"
+        android:title="@string/nav_title_discharges"/>
+
+</menu>
