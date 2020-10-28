@@ -95,12 +95,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar_dc_progress"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_webster"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_webster"
         tools:text="Dr Smith" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -127,7 +126,7 @@
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/seekBar_dc_progress"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/text_dc_date"
         tools:text="DC dest: Home" />
 
     <SeekBar

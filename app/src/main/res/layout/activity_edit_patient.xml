@@ -171,6 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_notes" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_tasks"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
