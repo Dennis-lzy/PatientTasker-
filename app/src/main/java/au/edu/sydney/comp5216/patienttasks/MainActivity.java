@@ -9,7 +9,13 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    PatientTasksDB db;
+    UserDao userDao;
+    PatientDao patientDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new PatientsFragment()).commit();
+
+        db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
+        userDao = db.toDoItemDao(); // User Dao
+        patientDao = db.patientDao(); // Patient Dao
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
