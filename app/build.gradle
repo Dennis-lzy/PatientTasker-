@@ -35,4 +35,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

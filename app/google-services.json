@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "378781247703",
+    "firebase_url": "https://comp5216-group-project.firebaseio.com",
+    "project_id": "comp5216-group-project",
+    "storage_bucket": "comp5216-group-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378781247703:android:4bdfc744c5bf8ec1d4e892",
+        "android_client_info": {
+          "package_name": "au.edu.sydney.comp5216.patienttasks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378781247703-4os6nfe2q7qcgm46g0alrogv9qkkksjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6076C-hc1odIzanKfokjXVXS20kqI7AA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378781247703-4os6nfe2q7qcgm46g0alrogv9qkkksjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
