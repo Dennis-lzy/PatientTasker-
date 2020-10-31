@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     PatientTasksDB db;
     UserDao userDao;
     PatientDao patientDao;
+    TaskDao taskDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

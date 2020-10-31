@@ -5,13 +5,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {User.class, Patient.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Patient.class, Task.class}, version = 1, exportSchema = false)
 public abstract class PatientTasksDB extends RoomDatabase {
     private static final String DATABASE_NAME = "patienttasks_db";
     private static PatientTasksDB DBINSTANCE;
 
     public abstract UserDao toDoItemDao();
     public abstract PatientDao patientDao();
+    public abstract TaskDao taskDao();
 
     public static PatientTasksDB getDatabase(Context context) {
         if (DBINSTANCE == null) {

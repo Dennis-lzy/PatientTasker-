@@ -8,16 +8,16 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface PatientDao {
-    @Query("SELECT * FROM patient")
-    List<Patient> listAll();
+public interface TaskDao {
+    @Query("SELECT * FROM task")
+    List<Task> listAll();
 
     @Insert
-    void insert(Patient patient);
+    void insert(Task task);
 
     @Insert
-    void insertAll(Patient... patients);
+    void insertAll(Task... tasks);
 
-    @Query("DELETE FROM patient")
+    @Query("DELETE FROM task")
     void deleteAll();
 }
