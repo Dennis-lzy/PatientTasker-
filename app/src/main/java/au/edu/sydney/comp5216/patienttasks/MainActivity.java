@@ -9,6 +9,15 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+//Firebase
+import com.google.firebase.auth.FirebaseAuth;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     UserDao userDao;
     PatientDao patientDao;
     TaskDao taskDao;
+
+    private FirebaseFirestore mFirestore;
+    private Query mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
         db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
         userDao = db.toDoItemDao(); // User Dao
         patientDao = db.patientDao(); // Patient Dao
+        CollectionReference restaurants = mFirestore.collection("patients");
     }
+
+    private void initFirestore() {mFirestore = FirebaseFirestore.getInstance();}
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
