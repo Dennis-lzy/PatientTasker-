@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -74,4 +76,24 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    public void addNewPatients(View v) {
+        Intent intent = new Intent(MainActivity.this, EditPatientActivity.class);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    public void addNewTask(View v) {
+        Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 1);
+        }
+    }
+
+    public void addNewDischarge(View v) {
+
+    }
 }

@@ -18,7 +18,5 @@ public class DischargesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_discharges, container, false);
     }
 
-    public void addNewDischarge(View v) {
 
-    }
 }

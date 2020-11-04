@@ -19,11 +19,5 @@ public class TasksFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
-    public void addNewTask(View v) {
-        Intent intent = new Intent(this.getContext(), EditTaskActivity.class);
 
-        if (intent.resolveActivity(this.getActivity().getPackageManager()) != null) {
-            startActivityForResult(intent, 1);
-        }
-    }
 }

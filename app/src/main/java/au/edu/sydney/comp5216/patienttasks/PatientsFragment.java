@@ -35,14 +35,6 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
         recyclerView.setAdapter(adapter);
     }
 
-    public void addNewPatients(View v) {
-        Intent intent = new Intent(this.getContext(), EditPatientActivity.class);
-
-        if (intent.resolveActivity(this.getActivity().getPackageManager()) != null) {
-            startActivityForResult(intent, 0);
-        }
-    }
-
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this.getContext(), "Editing patient " + adapter.patients.get(position).getPatientName() + " on row number " + position, Toast.LENGTH_SHORT).show();
