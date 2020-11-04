@@ -27,6 +27,17 @@ public class Task {
     @ColumnInfo(name = "taskPriority")
     private int taskPriority;
 
+    @ColumnInfo(name = "taskCompleted")
+    private boolean taskCompleted;
+
+    public boolean isTaskCompleted() {
+        return taskCompleted;
+    }
+
+    public void setTaskCompleted(boolean taskCompleted) {
+        this.taskCompleted = taskCompleted;
+    }
+
     @ColumnInfo(name = "taskRepeat")
     private String taskRepeat;
 
