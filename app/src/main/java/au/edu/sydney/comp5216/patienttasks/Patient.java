@@ -41,6 +41,17 @@ public class Patient {
     @ColumnInfo(name = "patientSumm")
     private boolean patientSumm;
 
+    @ColumnInfo(name = "webster")
+    private boolean webster;
+
+    public boolean isWebster() {
+        return webster;
+    }
+
+    public void setWebster(boolean webster) {
+        this.webster = webster;
+    }
+
     @ColumnInfo(name = "patientNotes")
     private String patientNotes;
 
