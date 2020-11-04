@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //Firebase
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initFirestore();
+
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -44,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
         CollectionReference restaurants = mFirestore.collection("patients");
     }
 
-    private void initFirestore() {mFirestore = FirebaseFirestore.getInstance();}
+    private void initFirestore() {
+        FirebaseApp.initializeApp(this);
+        mFirestore = FirebaseFirestore.getInstance();
+    }
 
 
 
