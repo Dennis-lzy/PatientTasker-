@@ -17,4 +17,8 @@ public class DischargesFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_discharges, container, false);
     }
+
+    public void addNewDischarge(View v) {
+
+    }
 }
