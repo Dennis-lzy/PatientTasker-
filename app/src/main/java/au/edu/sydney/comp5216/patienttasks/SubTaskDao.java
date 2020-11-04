@@ -8,17 +8,16 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface TaskDao {
-    @Query("SELECT * FROM task")
-    List<Task> listAll();
-
-
-    @Insert
-    void insert(Task task);
+public interface SubTaskDao {
+    @Query("SELECT * FROM subtask")
+    List<SubTask> listAll();
 
     @Insert
-    void insertAll(Task... tasks);
+    void insert(SubTask subTask);
 
-    @Query("DELETE FROM task")
+    @Insert
+    void insertAll(SubTask... subTasks);
+
+    @Query("DELETE FROM subtask")
     void deleteAll();
 }

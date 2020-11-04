@@ -23,8 +23,8 @@ public class Patient {
     @ColumnInfo(name = "patientConsultant")
     private String patientConsultant;
 
-    @ColumnInfo(name = "patientAdmission")
-    private String patientAdmission;
+    @ColumnInfo(name = "patientAdmDate")
+    private String patientAdmDate;
 
     @ColumnInfo(name = "patientDcDate")
     private String patientDcDate;
@@ -40,6 +40,17 @@ public class Patient {
 
     @ColumnInfo(name = "patientSumm")
     private boolean patientSumm;
+
+    @ColumnInfo(name = "patientNotes")
+    private String patientNotes;
+
+    public String getPatientNotes() {
+        return patientNotes;
+    }
+
+    public void setPatientNotes(String patientNotes) {
+        this.patientNotes = patientNotes;
+    }
 
     public Patient(String patientName){
         this.patientName = patientName;
@@ -61,12 +72,12 @@ public class Patient {
         this.patientConsultant = patientConsultant;
     }
 
-    public String getPatientAdmission() {
-        return patientAdmission;
+    public String getPatientAdmDate() {
+        return patientAdmDate;
     }
 
-    public void setPatientAdmission(String patientAdmission) {
-        this.patientAdmission = patientAdmission;
+    public void setPatientAdmDate(String patientAdmDate) {
+        this.patientAdmDate = patientAdmDate;
     }
 
     public String getPatientDcDate() {

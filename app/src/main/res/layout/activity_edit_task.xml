@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="task name"
+        android:hint="Task Name"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_task_name"
         app:layout_constraintStart_toStartOf="@+id/guideline7" />
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="date"
+        android:hint="Due Date"
         android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_due_date"
         app:layout_constraintStart_toStartOf="@+id/guideline7" />
