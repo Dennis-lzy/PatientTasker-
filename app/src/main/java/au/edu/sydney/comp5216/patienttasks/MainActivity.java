@@ -93,7 +93,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //press the floating action button in the Discharge fragment view (which patient is marked for discharge??)
     public void addNewDischarge(View v) {
 
+    }
+
+    public void onTaskCheckboxClick(View v) {
+        //user has clicked a checkbox for this current View v (in the TaskView Fragment)
+        //update the database for this current task to be marked as a subtask.
+        //subtask of which task though?
     }
 }

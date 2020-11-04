@@ -73,6 +73,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:button="@null"
+        android:onClick="onTaskCheckboxClick"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class TasksFragment extends Fragment {
+public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClickListener {
+
+    TaskViewAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -19,5 +25,20 @@ public class TasksFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // set up the RecyclerView
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView2);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new TaskViewAdapter(this.getContext());
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this.getContext(), "Editing task " + adapter.patients.get(position).getTaskName() + " on row number " + position, Toast.LENGTH_SHORT).show();
+
+        //TODO: create intent for EditTaskActivity
+    }
 }
