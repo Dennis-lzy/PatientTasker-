@@ -45,7 +45,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
         //do it for all patients to optimise query - only 1 query should be required for all patients
         //SELECT p.name, p.mrn, p.diagnosis, p.consultant, COUNT(t2.id) as inprogresstasks, COUNT(t.id) as totaltasks FROM patients AS p INNER JOIN tasks as t ON t.patient=p.id INNER JOIN tasks as t2 ON t2.patient=p.id WHERE t2.complete=0 GROUP BY p.id
         //holder.tasks.setText(p.getPatientName());
-        holder.diagnosis.setText(p.getPatientAdmission());
+        //holder.diagnosis.setText(p.getPatientAdmission());
         holder.consultant.setText(p.getPatientConsultant());
 
     }

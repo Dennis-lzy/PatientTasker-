@@ -22,14 +22,17 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_patients, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // set up the RecyclerView
-        RecyclerView recyclerView = this.getActivity().findViewById(R.id.recyclerView1);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new PatientViewAdapter(this.getContext());
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-
-        return inflater.inflate(R.layout.fragment_patients, container, false);
     }
 
     public void addNewPatients(View v) {
