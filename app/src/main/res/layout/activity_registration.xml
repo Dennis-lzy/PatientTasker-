@@ -8,7 +8,11 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".RegistrationActivity">
-
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/logo" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,5 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
+
+
 
 </LinearLayout>
