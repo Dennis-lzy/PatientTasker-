@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initFirestore();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         setContentView(R.layout.activity_main);
 
@@ -55,24 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //Adding Auth buttons
 
-        registerBtn = findViewById(R.id.register);
-        loginBtn = findViewById(R.id.login);
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
-                startActivity(intent);
-            }
-        });
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initFirestore() {
