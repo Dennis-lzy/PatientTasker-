@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register);
         loginBtn = findViewById(R.id.login);
     }
-}
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
