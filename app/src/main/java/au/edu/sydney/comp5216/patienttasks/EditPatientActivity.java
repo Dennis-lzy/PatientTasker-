@@ -36,25 +36,27 @@ public class EditPatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_patient);
 
         isEditing = getIntent().getBooleanExtra("editing", false);
+
+        cb = findViewById(R.id.checkBox_dc_summary);
+        cb2 = findViewById(R.id.checkBox_order_bloods);
+        cb3 = findViewById(R.id.checkBox_send_meds);
+        cb4 = findViewById(R.id.checkBox_discharged);
+
+        mrn = findViewById(R.id.editText_mrn);
+        editText_dc_dest = findViewById(R.id.editText_dc_dest);
+        editText_dc_date = findViewById(R.id.editText_dc_date);
+        editText_admission_date = findViewById(R.id.editText_admission_date);
+        editText_consultant = findViewById(R.id.editText_consultant);
+        editText_name = findViewById(R.id.editText_name);
+        editText_diagnosis = findViewById(R.id.editText_diagnosis);
+        editText_notes = findViewById(R.id.editText_notes);
+
         if (isEditing) {
             p = (Patient) getIntent().getSerializableExtra("patient");
-            cb = findViewById(R.id.checkBox_dc_summary);
-            cb2 = findViewById(R.id.checkBox_order_bloods);
-            cb3 = findViewById(R.id.checkBox_send_meds);
-            cb4 = findViewById(R.id.checkBox_discharged);
 
             cb2.setChecked(p.isPatientBloods());
             cb3.setChecked(p.isPatientMeds());
             cb4.setChecked(p.isPatientDischarged());
-
-            mrn = findViewById(R.id.editText_mrn);
-            editText_dc_dest = findViewById(R.id.editText_dc_dest);
-            editText_dc_date = findViewById(R.id.editText_dc_date);
-            editText_admission_date = findViewById(R.id.editText_admission_date);
-            editText_consultant = findViewById(R.id.editText_consultant);
-            editText_name = findViewById(R.id.editText_name);
-            editText_diagnosis = findViewById(R.id.editText_diagnosis);
-            editText_notes = findViewById(R.id.editText_notes);
 
             editText_dc_dest.setText(p.getPatientDcDest());
             editText_dc_date.setText(p.getPatientDcDate());
@@ -64,7 +66,7 @@ public class EditPatientActivity extends AppCompatActivity {
 
             mrn.setText(String.valueOf(p.getPatientRefNumber()));
 
-            //TODO: Add diagnosis field
+            //TODO: Add diagnosis field in database
             //p.setDiagnosis(editText_diagnosis.getText().toString());
             editText_notes.setText(p.getPatientNotes());
 
