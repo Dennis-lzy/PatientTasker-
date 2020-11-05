@@ -14,6 +14,20 @@ public class EditPatientActivity extends AppCompatActivity {
     Patient p;
     boolean isEditing;
 
+    EditText mrn;
+    EditText editText_dc_dest;
+    EditText editText_dc_date;
+    EditText editText_admission_date;
+    EditText editText_consultant;
+    EditText editText_name;
+    EditText editText_diagnosis;
+    EditText editText_notes;
+
+    CheckBox cb;
+    CheckBox cb2;
+    CheckBox cb3;
+    CheckBox cb4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,23 +36,23 @@ public class EditPatientActivity extends AppCompatActivity {
         isEditing = getIntent().getBooleanExtra("editing", false);
         if (isEditing) {
             p = (Patient) getIntent().getSerializableExtra("patient");
-            CheckBox cb = findViewById(R.id.checkBox_dc_summary);
-            CheckBox cb2 = findViewById(R.id.checkBox_order_bloods);
-            CheckBox cb3 = findViewById(R.id.checkBox_send_meds);
-            CheckBox cb4 = findViewById(R.id.checkBox_discharged);
+            cb = findViewById(R.id.checkBox_dc_summary);
+            cb2 = findViewById(R.id.checkBox_order_bloods);
+            cb3 = findViewById(R.id.checkBox_send_meds);
+            cb4 = findViewById(R.id.checkBox_discharged);
 
             cb2.setChecked(p.isPatientBloods());
             cb3.setChecked(p.isPatientMeds());
             cb4.setChecked(p.isPatientDischarged());
 
-            EditText mrn = findViewById(R.id.editText_mrn);
-            EditText editText_dc_dest = findViewById(R.id.editText_dc_dest);
-            EditText editText_dc_date = findViewById(R.id.editText_dc_date);
-            EditText editText_admission_date = findViewById(R.id.editText_admission_date);
-            EditText editText_consultant = findViewById(R.id.editText_consultant);
-            EditText editText_name = findViewById(R.id.editText_name);
-            EditText editText_diagnosis = findViewById(R.id.editText_diagnosis);
-            EditText editText_notes = findViewById(R.id.editText_notes);
+            mrn = findViewById(R.id.editText_mrn);
+            editText_dc_dest = findViewById(R.id.editText_dc_dest);
+            editText_dc_date = findViewById(R.id.editText_dc_date);
+            editText_admission_date = findViewById(R.id.editText_admission_date);
+            editText_consultant = findViewById(R.id.editText_consultant);
+            editText_name = findViewById(R.id.editText_name);
+            editText_diagnosis = findViewById(R.id.editText_diagnosis);
+            editText_notes = findViewById(R.id.editText_notes);
 
             editText_dc_dest.setText(p.getPatientDcDest());
             editText_dc_date.setText(p.getPatientDcDate());
@@ -90,23 +104,9 @@ public class EditPatientActivity extends AppCompatActivity {
 
     public void onSave(View v) {
         //update text fields into the database
-        CheckBox cb = findViewById(R.id.checkBox_dc_summary);
-        CheckBox cb2 = findViewById(R.id.checkBox_order_bloods);
-        CheckBox cb3 = findViewById(R.id.checkBox_send_meds);
-        CheckBox cb4 = findViewById(R.id.checkBox_discharged);
-
         p.setPatientBloods(cb2.isChecked());
         p.setPatientMeds(cb3.isChecked());
         p.setPatientDischarged(cb4.isChecked());
-
-        EditText mrn = findViewById(R.id.editText_mrn);
-        EditText editText_dc_dest = findViewById(R.id.editText_dc_dest);
-        EditText editText_dc_date = findViewById(R.id.editText_dc_date);
-        EditText editText_admission_date = findViewById(R.id.editText_admission_date);
-        EditText editText_consultant = findViewById(R.id.editText_consultant);
-        EditText editText_name = findViewById(R.id.editText_name);
-        EditText editText_diagnosis = findViewById(R.id.editText_diagnosis);
-        EditText editText_notes = findViewById(R.id.editText_notes);
 
         p.setPatientDcDest(editText_dc_dest.getText().toString());
         p.setPatientDcDate(editText_dc_date.getText().toString());
