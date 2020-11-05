@@ -65,11 +65,14 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
+
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
 
@@ -96,7 +99,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                     });
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
