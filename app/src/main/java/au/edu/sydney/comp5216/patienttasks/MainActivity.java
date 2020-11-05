@@ -61,38 +61,32 @@ public class MainActivity extends AppCompatActivity {
         db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
         userDao = db.toDoItemDao(); // User Dao
         patientDao = db.patientDao(); // Patient Dao
-        CollectionReference restaurants = mFirestore.collection("patients");
-
-
 
 
     }
 
 
-
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-            switch(item.getItemId()){
-                case R.id.nav_patients:
-                    selectedFragment = new PatientsFragment();
-                    break;
-                case R.id.nav_tasks:
-                    selectedFragment = new TasksFragment();
-                    break;
-                case R.id.nav_discharge:
-                    selectedFragment = new DischargesFragment();
-                    break;
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
-            return true;
-        }
-    };
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+                    switch (item.getItemId()) {
+                        case R.id.nav_patients:
+                            selectedFragment = new PatientsFragment();
+                            break;
+                        case R.id.nav_tasks:
+                            selectedFragment = new TasksFragment();
+                            break;
+                        case R.id.nav_discharge:
+                            selectedFragment = new DischargesFragment();
+                            break;
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+                    return true;
+                }
+            };
 
     public void addNewPatients(View v) {
         Intent intent = new Intent(MainActivity.this, EditPatientActivity.class);
@@ -148,4 +142,5 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
 }

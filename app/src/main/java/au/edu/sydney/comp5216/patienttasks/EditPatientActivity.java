@@ -188,6 +188,10 @@ public class EditPatientActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Saved patient info",
                 Toast.LENGTH_SHORT).show();
+
+        //Change back to main
+        Intent intent = new Intent(EditPatientActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     //checkbox toggle
