@@ -11,11 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.ViewHolder> {
 
     // Keep all Patients in list
-    public ArrayList<Patient> patients = new ArrayList<Patient>();
+    public List<PatientWithTaskCount> patients = new ArrayList<PatientWithTaskCount>();
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -38,15 +39,12 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Patient p = patients.get(position);
+        PatientWithTaskCount p = patients.get(position);
         holder.name.setText(p.getPatientName());
         holder.mrn.setText("MRN: "+p.getPatientRefNumber());
-        //TODO: get number of tasks for this patient from database
-        //do it for all patients to optimise query - only 1 query should be required for all patients
-        //SELECT p.name, p.mrn, p.diagnosis, p.consultant, COUNT(t2.id) as inprogresstasks, COUNT(t.id) as totaltasks FROM patients AS p INNER JOIN tasks as t ON t.patient=p.id INNER JOIN tasks as t2 ON t2.patient=p.id WHERE t2.complete=0 GROUP BY p.id
-        //holder.tasks.setText(p.getPatientName());
-        //holder.diagnosis.setText(p.getPatientAdmission());
+        //holder.diagnosis.setText("Dx: "+p.getPatientDiagnosis());
         holder.consultant.setText(p.getPatientConsultant());
+        holder.tasksCount.setText(p.getTasksCompleted()+"/"+String.valueOf(p.getTasksCompleted()+p.getTasksInProgress()));
 
     }
 
@@ -65,7 +63,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView name;
         TextView mrn;
-        TextView tasks;
+        //TextView tasks;
         TextView diagnosis;
         TextView consultant;
         TextView tasksCount;
@@ -74,7 +72,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
             super(itemView);
             name = itemView.findViewById(R.id.text_name);
             mrn = itemView.findViewById(R.id.text_mrn);
-            tasks = itemView.findViewById(R.id.text_tasks);
+            //tasks = itemView.findViewById(R.id.text_tasks);
             diagnosis = itemView.findViewById(R.id.text_diagnosis);
             consultant = itemView.findViewById(R.id.text_consultant);
             tasksCount = itemView.findViewById(R.id.text_task_count);

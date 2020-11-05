@@ -1,6 +1,7 @@
 package au.edu.sydney.comp5216.patienttasks;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class PatientsFragment extends Fragment implements PatientViewAdapter.ItemClickListener {
 
@@ -33,12 +37,36 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
         adapter = new PatientViewAdapter(this.getContext());
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+
+        //database query (async)
+        try {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    List<PatientWithTaskCount> pwtc = PatientTasksDB.getDatabase(PatientsFragment.this.getContext()).patientDao().getPatientView();
+                    adapter.patients.addAll(pwtc);
+                    adapter.notifyDataSetChanged();
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this.getContext(), "Editing patient " + adapter.patients.get(position).getPatientName() + " on row number " + position, Toast.LENGTH_SHORT).show();
 
-        //TODO: create intent for EditPatientActivity
+        Intent intent = new Intent(this.getContext(), EditPatientActivity.class);
+        intent.putExtra("editing", true);
+        intent.putExtra("patient", adapter.patients.get(position));
+
+        if (intent.resolveActivity(this.getContext().getPackageManager()) != null) {
+            startActivityForResult(intent, 0);
+        }
     }
 }
