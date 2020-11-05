@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewPatients(View v) {
         Intent intent = new Intent(MainActivity.this, EditPatientActivity.class);
+        intent.putExtra("editing", false);
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 0);
@@ -87,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewTask(View v) {
         Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+        intent.putExtra("editing", false);
+
+        //which patient do we associate with this task? Select a patient from a dropdown menu perhaps?
+        intent.putExtra("patient", "");
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 1);
