@@ -18,6 +18,17 @@ public class SubTask {
     @ColumnInfo(name = "subTask_TaskID")
     private int subTask_TaskID;
 
+    @ColumnInfo(name = "subTaskCompleted")
+    private int subTaskCompleted;
+
+    public int getSubTaskCompleted() {
+        return subTaskCompleted;
+    }
+
+    public void setSubTaskCompleted(int subTaskCompleted) {
+        this.subTaskCompleted = subTaskCompleted;
+    }
+
     public SubTask(String subTaskName){
         this.subTaskName = subTaskName;
     }

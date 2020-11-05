@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="MRN"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_mrn"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="MRN:"
+        android:text="@string/mrn"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_name" />
@@ -33,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="discharge destination"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_dc_dest"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -44,8 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="estimated discharge date"
-        android:inputType="textPersonName"
+        android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_dc_date"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
@@ -55,8 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="admission date"
-        android:inputType="textPersonName"
+        android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_admission_date"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
@@ -66,7 +62,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="consultant"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_consultant"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -77,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Name:"
+        android:text="@string/name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -88,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Diagnosis:"
+        android:text="@string/diagnosis"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_mrn" />
@@ -99,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Consultant:"
+        android:text="@string/consultant"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_diagnosis" />
@@ -110,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Admission date:"
+        android:text="@string/admission_date"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_consultant" />
@@ -121,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Est DC date:"
+        android:text="@string/est_dc_date"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_admission_date" />
@@ -132,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="DC destination:"
+        android:text="@string/dc_destination"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_dc_date" />
@@ -143,7 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Notes:"
+        android:text="@string/notes"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_dc_dest" />
@@ -161,7 +156,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="name"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_name"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -172,7 +166,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="diagnosis"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_diagnosis"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -186,7 +179,6 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="notes"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -218,7 +210,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:text="DC summ"
+        android:text="@string/dc_summ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/checkBox_send_meds"
@@ -230,7 +222,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        android:text="Order Bloods"
+        android:text="@string/order_bloods"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_send_meds"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -242,7 +234,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Send Meds"
+        android:text="@string/send_meds"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_dc_summary"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/checkBox_order_bloods"
@@ -257,7 +249,8 @@
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/button_cancel"
@@ -265,7 +258,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -275,8 +268,17 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_discharged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/discharged"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button_save"
+        app:layout_constraintEnd_toStartOf="@+id/button_save"
+        app:layout_constraintStart_toEndOf="@+id/button_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

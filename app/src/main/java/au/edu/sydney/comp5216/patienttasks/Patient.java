@@ -41,15 +41,26 @@ public class Patient {
     @ColumnInfo(name = "patientSumm")
     private boolean patientSumm;
 
-    @ColumnInfo(name = "webster")
-    private boolean webster;
+    @ColumnInfo(name = "patientWebster")
+    private boolean patientWebster;
 
-    public boolean isWebster() {
-        return webster;
+    @ColumnInfo(name = "patientDischarged")
+    private boolean patientDischarged;
+
+    public boolean isPatientDischarged() {
+        return patientDischarged;
     }
 
-    public void setWebster(boolean webster) {
-        this.webster = webster;
+    public void setPatientDischarged(boolean patientDischarged) {
+        this.patientDischarged = patientDischarged;
+    }
+
+    public boolean isPatientWebster() {
+        return patientWebster;
+    }
+
+    public void setPatientWebster(boolean patientWebster) {
+        this.patientWebster = patientWebster;
     }
 
     @ColumnInfo(name = "patientNotes")
