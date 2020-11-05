@@ -3,6 +3,7 @@ package au.edu.sydney.comp5216.patienttasks;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
                 @Override
                 protected Void doInBackground(Void... voids) {
                     List<PatientWithTaskCount> pwtc = PatientTasksDB.getDatabase(PatientsFragment.this.getContext()).patientDao().getPatientView();
+                    Log.i("PatientTasks", "Database query for patient view retrieved " + pwtc.size() + " patients.");
+
                     adapter.patients.addAll(pwtc);
                     adapter.notifyDataSetChanged();
                     return null;
