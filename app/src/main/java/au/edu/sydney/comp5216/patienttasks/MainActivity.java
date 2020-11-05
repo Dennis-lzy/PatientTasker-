@@ -1,11 +1,13 @@
 package au.edu.sydney.comp5216.patienttasks;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initFirestore();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        FirebaseFirestore dbFire = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -60,10 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initFirestore() {
-        FirebaseApp.initializeApp(this);
-        mFirestore = FirebaseFirestore.getInstance();
-    }
 
 
 
@@ -116,4 +120,32 @@ public class MainActivity extends AppCompatActivity {
         //update the database for this current task to be marked as a subtask.
         //subtask of which task though?
     }
+
+    public void patientsFBListener(FirebaseFirestore dbFire) {
+        dbFire.collection("patients")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("patientListen", "listen:error", e);
+                            return;
+                        }
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    Log.d("patientsFBListener", "New patient: " + dc.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    Log.d("patientsFBListener", "Modified patient: " + dc.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d("patientsFBListener", "Removed patient: " + dc.getDocument().getData());
+                                    break;
+                            }
+                        }
+
+                    }
+                });
 }
