@@ -80,21 +80,23 @@ public class RegistrationActivity extends AppCompatActivity {
                             startActivity(intent);
 
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
                             Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
                             user.put("password", password);
-                            db.collection("users")
-                                    .add(user)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            db.collection("users").document(email)
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error adding document", e);
+                                            Log.w(TAG, "Error writing document", e);
                                         }
                                     });
                         }

@@ -170,18 +170,18 @@ public class EditPatientActivity extends AppCompatActivity {
         patient.put("Send Meds",cb3.isChecked());
         patient.put("Discharged",cb4.isChecked());
 
-        db.collection("patients")
-                .add(patient)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("patients").document(mrn.getText().toString())
+                .set(patient)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                        Log.w(TAG, "Error writing document", e);
                     }
                 });
 
