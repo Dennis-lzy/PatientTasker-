@@ -43,9 +43,22 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        initializeViews();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new PatientsFragment()).commit();
+
+        db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
+        userDao = db.toDoItemDao(); // User Dao
+        patientDao = db.patientDao(); // Patient Dao
+        CollectionReference restaurants = mFirestore.collection("patients");
+
+
 
         //Adding Auth buttons
+
+        registerBtn = findViewById(R.id.register);
+        loginBtn = findViewById(R.id.login);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,17 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new PatientsFragment()).commit();
-
-        db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
-        userDao = db.toDoItemDao(); // User Dao
-        patientDao = db.patientDao(); // Patient Dao
-        CollectionReference restaurants = mFirestore.collection("patients");
     }
 
     private void initFirestore() {
@@ -78,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-    private void initializeViews() {
-        registerBtn = findViewById(R.id.register);
-        loginBtn = findViewById(R.id.login);
-    }
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
