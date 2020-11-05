@@ -3,7 +3,9 @@ package au.edu.sydney.comp5216.patienttasks;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -129,7 +131,15 @@ public class EditPatientActivity extends AppCompatActivity {
             //PatientTasksDB.getDatabase(this).patientDao().update(p.getPatientID(), p);
         } else {
             //add new patient (automatically sets a new primary key as the next available integer? Or does that have to be done here?)
-            PatientTasksDB.getDatabase(this).patientDao().insert(p);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    PatientTasksDB.getDatabase(EditPatientActivity.this).patientDao().insert(p);
+                    Log.i("SQLite saved item", "Patient "+p.getPatientName()+", "+p.getPatientID()+", "+p.getPatientRefNumber());
+                    return null;
+                }
+            }.execute();
+
             isEditing = true;
         }
 
