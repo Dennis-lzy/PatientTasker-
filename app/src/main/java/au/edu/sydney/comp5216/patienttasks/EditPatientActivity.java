@@ -1,5 +1,6 @@
 package au.edu.sydney.comp5216.patienttasks;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,8 +12,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class EditPatientActivity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
+public class EditPatientActivity extends AppCompatActivity {
+    private static final String TAG = "Patient";
     Patient p;
     boolean isEditing;
 
@@ -144,6 +153,37 @@ public class EditPatientActivity extends AppCompatActivity {
 
             isEditing = true;
         }
+
+        //Make updates to firebase
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> patient = new HashMap<>();
+        patient.put("Name", editText_name.getText().toString());
+        patient.put("MRN", mrn.getText().toString());
+        patient.put("Diagnosis", editText_diagnosis.getText().toString());
+        patient.put("Consultant", editText_consultant.getText().toString());
+        patient.put("Admission date", editText_admission_date.getText().toString());
+        patient.put("Est DC date", editText_dc_date.getText().toString());
+        patient.put("DC destination", editText_dc_dest.getText().toString());
+        patient.put("Notes", editText_notes.getText().toString());
+        patient.put("Order Blood",cb2.isChecked());
+        patient.put("Send Meds",cb3.isChecked());
+        patient.put("Discharged",cb4.isChecked());
+
+        db.collection("patients")
+                .add(patient)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
 
         Toast.makeText(this, "Saved patient info",
