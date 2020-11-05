@@ -23,9 +23,10 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
 
     public PatientViewAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
-
+        //TEST Patients:
+        //patients.add(new PatientWithTaskCount("John Doe"));
+        //patients.add(new PatientWithTaskCount("Patient X"));
         //load patients from database into the list (memory)
-        //TODO
         mContext = context;
     }
 
