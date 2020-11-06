@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText emailTV, passwordTV;
+    private EditText emailTV, passwordTV, nameTV, pinTV;
     private Button regBtn;
     private ProgressBar progressBar;
     private static final String TAG = "RegistrationActivity";
@@ -52,9 +52,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private void registerNewUser() {
         progressBar.setVisibility(View.VISIBLE);
 
-        final String email, password;
+        final String email, password, pin, name;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
+        pin = pinTV.getText().toString();
+        name= nameTV.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -110,6 +112,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void initializeUI() {
+        nameTV = findViewById(R.id.text_name);
+        pinTV = findViewById(R.id.pin);
         emailTV = findViewById(R.id.email);
         passwordTV = findViewById(R.id.password);
         regBtn = findViewById(R.id.register);
