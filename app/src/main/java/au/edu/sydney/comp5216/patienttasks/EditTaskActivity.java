@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -27,9 +28,14 @@ public class EditTaskActivity extends AppCompatActivity {
     EditText nameEdit;
     EditText dateEdit;
     Spinner userSpin;
-    List<User> users;
+    ArrayAdapter<String> userSpinAdapter;
+    ArrayList<String> users;
     Spinner prioritySpin;
+    ArrayAdapter<Integer> prioSpinAdapter;
+    ArrayList<Integer> priorities;
     Spinner repeatSpin;
+    ArrayAdapter<Integer> repeatSpinAdapter;
+    ArrayList<Integer> repeats;
     RecyclerView subtasks;
     Task task;
 
@@ -37,20 +43,25 @@ public class EditTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
-
-        //TODO: need to populate spinners with ArrayAdapter of users, priority, and repeat
-        userSpin = findViewById(R.id.spinner_user);
         users = new ArrayList<>();
+        priorities = new ArrayList<>();
+        repeats = new ArrayList<>();
 
-        //database query (async)
+        for (int i = 1 ; i < 11; i++) {
+            priorities.add(i);
+            repeats.add(i);
+        }
+
+        //database query (async) for fetching users
         try {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
                     List<User> userDB = PatientTasksDB.getDatabase(EditTaskActivity.this).toDoItemDao().listAll();
                     Log.i("Users", "Database query for users retrieved " + userDB.size() + " users.");
-
-                    users.addAll(userDB);
+                    for (User user : userDB) {
+                        users.add(user.getUserName());
+                    }
                     return null;
                 }
             }.execute().get();
@@ -59,8 +70,27 @@ public class EditTaskActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // populate user spinner
+        userSpin = findViewById(R.id.spinner_user);
+        userSpinAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, users);
+        userSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpin.setAdapter(userSpinAdapter);
+
+        // populate priority spinner
         prioritySpin = findViewById(R.id.spinner_priority);
+        prioSpinAdapter = new ArrayAdapter<Integer>(this,
+                android.R.layout.simple_spinner_item, priorities);
+        prioSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prioritySpin.setAdapter(prioSpinAdapter);
+
+        // populate repeat spinner
         repeatSpin = findViewById(R.id.spinner_repeat);
+        repeatSpinAdapter = new ArrayAdapter<Integer>(this,
+                android.R.layout.simple_spinner_item, repeats);
+        repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        repeatSpin.setAdapter(repeatSpinAdapter);
 
         //TODO: need to populate recyclerView with ArrayAdapter of subtasks
         subtasks = findViewById(R.id.recyclerview_subtasks);
