@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
+
 @Entity(tableName = "task")
-public class Task {
+public class Task implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "taskID")

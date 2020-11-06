@@ -140,6 +140,14 @@ public class EditPatientActivity extends AppCompatActivity {
         if (isEditing) {
             //update exiting patient
             //PatientTasksDB.getDatabase(this).patientDao().update(p.getPatientID(), p);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    PatientTasksDB.getDatabase(EditPatientActivity.this).patientDao().insert(p);
+                    Log.i("SQLite saved item", "Patient "+p.getPatientName()+", "+p.getPatientID()+", "+p.getPatientRefNumber());
+                    return null;
+                }
+            }.execute();
         } else {
             //add new patient (automatically sets a new primary key as the next available integer? Or does that have to be done here?)
             new AsyncTask<Void, Void, Void>() {

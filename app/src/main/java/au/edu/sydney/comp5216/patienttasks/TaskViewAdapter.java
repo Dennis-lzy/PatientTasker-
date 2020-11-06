@@ -12,20 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
 
     // Keep all tasks in list
-    public ArrayList<Task> patients = new ArrayList<Task>();
+    public List<Task> tasks = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     public TaskViewAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
-
-        //load patients from database into the list (memory)
-        //TODO
         mContext = context;
     }
 
@@ -39,21 +37,17 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Task t = patients.get(position);
-        //holder.name.setText(t.gettask);
-        //holder.mrn.setText("MRN: "+p.getPatientRefNumber());
-        //TODO: get task information from database, including patient info via INNER JOIN
-        //only 1 query should be required for all tasks
-        //holder.tasks.setText(p.getPatientName());
-        //holder.diagnosis.setText(p.getPatientAdmission());
-        //holder.consultant.setText(p.getPatientConsultant());
-
+        Task task = tasks.get(position);
+        holder.name.setText(task.getTaskName());
+        holder.patient.setText(task.getTask_patientID());
+        holder.assigned.setText(task.getTaskAssign_userID());
+        holder.due.setText(task.getTaskDueDate());
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return patients.size();
+        return tasks.size();
     }
 
     @Override

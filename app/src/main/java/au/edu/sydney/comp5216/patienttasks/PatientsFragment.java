@@ -26,29 +26,27 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_patients, container, false);
-    }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // set up the RecyclerView
+        View view = inflater.inflate(R.layout.fragment_patients, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new PatientViewAdapter(this.getContext());
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        //database query (async)
+        //database query (async) for fetching patients
         try {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    List<PatientWithTaskCount> pwtc = PatientTasksDB.getDatabase(PatientsFragment.this.getContext()).patientDao().getPatientView();
-                    Log.i("PatientTasks", "Database query for patient view retrieved " + pwtc.size() + " patients.");
+                    List<Patient> patientDB = PatientTasksDB.getDatabase(PatientsFragment.this.getContext()).patientDao().listAll();
 
-                    adapter.patients.addAll(pwtc);
+                    Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
+
+                    adapter.patients.addAll(patientDB);
                     adapter.notifyDataSetChanged();
+
                     return null;
                 }
             }.execute().get();
@@ -58,6 +56,8 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
             e.printStackTrace();
         }
 
+        //return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     @Override
