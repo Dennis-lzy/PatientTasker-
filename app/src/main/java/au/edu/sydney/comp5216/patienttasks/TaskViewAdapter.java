@@ -39,9 +39,9 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Task task = tasks.get(position);
         holder.name.setText(task.getTaskName());
-        holder.patient.setText(task.getTask_patientID());
-        holder.assigned.setText(task.getTaskAssign_userID());
-        holder.due.setText(task.getTaskDueDate());
+        holder.patient.setText("PatientID: " + task.getTask_patientID());
+        holder.assigned.setText("UserID: " + task.getTaskAssign_userID());
+        holder.due.setText("Due Date: " + task.getTaskDueDate());
     }
 
     // total number of rows

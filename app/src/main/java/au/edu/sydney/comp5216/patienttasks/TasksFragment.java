@@ -28,8 +28,8 @@ public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClick
                              @Nullable Bundle savedInstanceState) {
 
         // set up the RecyclerView
-        View view = inflater.inflate(R.layout.fragment_patients, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView1);
+        View view = inflater.inflate(R.layout.fragment_tasks, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new TaskViewAdapter(this.getContext());
         adapter.setClickListener(this);
@@ -82,4 +82,5 @@ public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClick
             startActivityForResult(intent, 0);
         }
     }
+
 }

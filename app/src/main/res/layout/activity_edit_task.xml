@@ -40,6 +40,17 @@
         app:layout_constraintTop_toBottomOf="@+id/text_assign" />
 
     <TextView
+        android:id="@+id/text_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/patient"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_due_date" />
+
+    <TextView
         android:id="@+id/text_assign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +59,7 @@
         android:text="@string/assign_to"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_due_date" />
+        app:layout_constraintTop_toBottomOf="@+id/text_patient" />
 
     <TextView
         android:id="@+id/text_due_date"
@@ -70,16 +81,7 @@
         android:text="@string/task_name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_patient_select" />
-
-    <Spinner
-        android:id="@+id/spinner_patient_select"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
@@ -106,6 +108,16 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@+id/text_due_date"
+        app:layout_constraintStart_toStartOf="@+id/guideline7" />
+
+    <Spinner
+        android:id="@+id/spinner_patient_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_patient"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
     <Spinner
@@ -174,6 +186,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/cancel"
+        android:onClick="onCancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -184,6 +197,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/save"
+        android:onClick="onSave"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -55,16 +55,24 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new PatientsFragment()).commit();
+
+        //Button addTask = (Button)findViewById(R.id.floatingActionButton2);
+        //addTask.setOnClickListener(new View.OnClickListener() {
+            //public void onClick(View v) {
+                //Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+                //intent.putExtra("editing", false);
+
+                //if (intent.resolveActivity(getPackageManager()) != null) {
+                    //startActivityForResult(intent, 1);
+                //}
+            //}});
 
         db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
         userDao = db.toDoItemDao(); // User Dao
         patientDao = db.patientDao(); // Patient Dao
-
+        taskDao = db.taskDao(); // Task Dao
 
     }
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -100,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
     public void addNewTask(View v) {
         Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
         intent.putExtra("editing", false);
-
-        //which patient do we associate with this task? Select a patient from a dropdown menu perhaps?
-        intent.putExtra("patient", "");
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 1);

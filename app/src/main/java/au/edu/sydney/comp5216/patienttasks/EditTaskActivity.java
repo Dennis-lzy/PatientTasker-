@@ -48,6 +48,7 @@ public class EditTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
+        patients = new ArrayList<>();
         users = new ArrayList<>();
         priorities = new ArrayList<>();
         repeats = new ArrayList<>();
@@ -137,16 +138,21 @@ public class EditTaskActivity extends AppCompatActivity {
         nameEdit = findViewById(R.id.editText_task_name);
         dateEdit = findViewById(R.id.editText_due_date);
         String name = nameEdit.getText().toString();
-        String date = dateEdit.getText().toString();
-        Integer user = Integer.parseInt(userSpin.getSelectedItem().toString());
-        Integer patient = Integer.parseInt(userSpin.getSelectedItem().toString());
+        task = new Task(name);
+
+        if (userSpin.getSelectedItem() != null) {
+            Integer user = Integer.parseInt(userSpin.getSelectedItem().toString());
+            task.setTaskAssign_userID(user);
+        }
+        if (patientSpin.getSelectedItem() != null) {
+            Integer patient = Integer.parseInt(patientSpin.getSelectedItem().toString());
+            task.setTask_patientID(patient);
+        }
         Integer priority = Integer.parseInt(prioritySpin.getSelectedItem().toString());
         String repeat = repeatSpin.getSelectedItem().toString();
 
-        task = new Task(name);
+        String date = dateEdit.getText().toString();
         task.setTaskDueDate(date);
-        task.setTaskAssign_userID(user);
-        task.setTask_patientID(patient);
         task.setTaskPriority(priority);
         task.setTaskRepeat(repeat);
 

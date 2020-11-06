@@ -72,4 +72,5 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
             startActivityForResult(intent, 0);
         }
     }
+
 }

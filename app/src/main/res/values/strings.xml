@@ -20,6 +20,7 @@
     <string name="subtasks">Subtasks:</string>
     <string name="repeat">Repeat:</string>
     <string name="priority">Priority:</string>
+    <string name="patient">Patient:</string>
     <string name="assign_to">Assign to:</string>
     <string name="due_date">Due date:</string>
     <string name="task_name">Task name:</string>
