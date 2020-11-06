@@ -189,9 +189,9 @@ public class EditPatientActivity extends AppCompatActivity {
         Toast.makeText(this, "Saved patient info",
                 Toast.LENGTH_SHORT).show();
 
-        //Change back to PatientsFragment
-        Intent intent = new Intent(EditPatientActivity.this, PatientsFragment.class);
-        startActivity(intent);
+        // Activity finished ok, return the data
+        setResult(RESULT_OK); // set result code and bundle data for response
+        finish(); // closes the activity, pass data to parent
     }
 
     //checkbox toggle

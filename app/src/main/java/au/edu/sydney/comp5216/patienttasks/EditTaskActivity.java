@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +16,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class EditTaskActivity extends AppCompatActivity {
     private static final String TAG = "Tasks";
     EditText nameEdit;
     EditText dateEdit;
     Spinner userSpin;
+    List<User> users;
     Spinner prioritySpin;
     Spinner repeatSpin;
     RecyclerView subtasks;
@@ -35,6 +40,25 @@ public class EditTaskActivity extends AppCompatActivity {
 
         //TODO: need to populate spinners with ArrayAdapter of users, priority, and repeat
         userSpin = findViewById(R.id.spinner_user);
+        users = new ArrayList<>();
+
+        //database query (async)
+        try {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    List<User> userDB = PatientTasksDB.getDatabase(EditTaskActivity.this).toDoItemDao().listAll();
+                    Log.i("Users", "Database query for users retrieved " + userDB.size() + " users.");
+
+                    users.addAll(userDB);
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         prioritySpin = findViewById(R.id.spinner_priority);
         repeatSpin = findViewById(R.id.spinner_repeat);
 
