@@ -45,6 +45,7 @@ public class EditPatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_patient);
 
         isEditing = getIntent().getBooleanExtra("editing", false);
+        Log.i("EditPatientActivity", "Editing = "+isEditing);
 
         cb = findViewById(R.id.checkBox_dc_summary);
         cb2 = findViewById(R.id.checkBox_order_bloods);
