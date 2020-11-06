@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     public void addNewTask(View v) {
         Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
         intent.putExtra("editing", false);
+        intent.putExtra("patient", "");
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 1);
