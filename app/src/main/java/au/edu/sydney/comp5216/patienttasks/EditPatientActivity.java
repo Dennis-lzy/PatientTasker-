@@ -189,8 +189,8 @@ public class EditPatientActivity extends AppCompatActivity {
         Toast.makeText(this, "Saved patient info",
                 Toast.LENGTH_SHORT).show();
 
-        //Change back to main
-        Intent intent = new Intent(EditPatientActivity.this, MainActivity.class);
+        //Change back to PatientsFragment
+        Intent intent = new Intent(EditPatientActivity.this, PatientsFragment.class);
         startActivity(intent);
     }
 
