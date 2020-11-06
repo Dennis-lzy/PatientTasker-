@@ -28,14 +28,14 @@ public class EditTaskActivity extends AppCompatActivity {
     EditText nameEdit;
     EditText dateEdit;
     Spinner userSpin;
-    ArrayAdapter<String> userSpinAdapter;
-    ArrayList<String> users;
+    ArrayAdapter<Integer> userSpinAdapter;
+    ArrayList<Integer> users;
     Spinner prioritySpin;
     ArrayAdapter<Integer> prioSpinAdapter;
     ArrayList<Integer> priorities;
     Spinner repeatSpin;
-    ArrayAdapter<Integer> repeatSpinAdapter;
-    ArrayList<Integer> repeats;
+    ArrayAdapter<String> repeatSpinAdapter;
+    ArrayList<String> repeats;
     RecyclerView subtasks;
     Task task;
 
@@ -46,11 +46,11 @@ public class EditTaskActivity extends AppCompatActivity {
         users = new ArrayList<>();
         priorities = new ArrayList<>();
         repeats = new ArrayList<>();
-
         for (int i = 1 ; i < 11; i++) {
             priorities.add(i);
-            repeats.add(i);
         }
+        repeats.add("Yes");
+        repeats.add("No");
 
         //database query (async) for fetching users
         try {
@@ -60,7 +60,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     List<User> userDB = PatientTasksDB.getDatabase(EditTaskActivity.this).toDoItemDao().listAll();
                     Log.i("Users", "Database query for users retrieved " + userDB.size() + " users.");
                     for (User user : userDB) {
-                        users.add(user.getUserName());
+                        users.add(user.getUserID());
                     }
                     return null;
                 }
@@ -73,7 +73,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         // populate user spinner
         userSpin = findViewById(R.id.spinner_user);
-        userSpinAdapter = new ArrayAdapter<String>(this,
+        userSpinAdapter = new ArrayAdapter<Integer>(this,
                 android.R.layout.simple_spinner_item, users);
         userSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpin.setAdapter(userSpinAdapter);
@@ -87,7 +87,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         // populate repeat spinner
         repeatSpin = findViewById(R.id.spinner_repeat);
-        repeatSpinAdapter = new ArrayAdapter<Integer>(this,
+        repeatSpinAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, repeats);
         repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repeatSpin.setAdapter(repeatSpinAdapter);
@@ -103,9 +103,29 @@ public class EditTaskActivity extends AppCompatActivity {
         dateEdit = findViewById(R.id.editText_due_date);
         String name = nameEdit.getText().toString();
         String date = dateEdit.getText().toString();
-        String user = userSpin.getSelectedItem().toString();
-        String priority = prioritySpin.getSelectedItem().toString();
+        Integer user = Integer.parseInt(userSpin.getSelectedItem().toString());
+        Integer priority = Integer.parseInt(prioritySpin.getSelectedItem().toString());
         String repeat = repeatSpin.getSelectedItem().toString();
+
+        task = new Task(name);
+        task.setTaskDueDate(date);
+        task.setTaskAssign_userID(user);
+        task.setTaskPriority(priority);
+        task.setTaskRepeat(repeat);
+
+        // insert task in database (async)
+        try {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().insert(task);
+                    Log.i("SQLite saved item", "Task: "+ task.getTaskName() + '\n');
+                    return null;
+                }
+            }.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Add to Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -126,21 +146,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     }
                 });
 
-
-        Task task = new Task(name);
-
-        // Prepare data intent for sending it back
-        Intent data = new Intent();
-
-        // Pass relevant data back as a result
-        data.putExtra("name", name);
-        data.putExtra("date", date);
-        data.putExtra("user", user);
-        data.putExtra("priority", priority);
-        data.putExtra("repeat", repeat);
-
-        // Activity finished ok, return the data
-        setResult(RESULT_OK, data); // set result code and bundle data for response
+        setResult(RESULT_OK); // set result code
         finish(); // closes the activity, pass data to parent
     }
 
