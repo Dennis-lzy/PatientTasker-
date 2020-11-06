@@ -19,6 +19,13 @@
         android:text="Register new account" />
 
     <EditText
+        android:id="@+id/text_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full name"
+        android:inputType="numberPassword" />
+
+    <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,6 +37,13 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pin number"
+        android:inputType="numberPassword" />
 
     <Button
         android:id="@+id/register"
