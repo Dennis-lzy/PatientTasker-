@@ -87,6 +87,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
                             user.put("password", password);
+                            user.put("pin", pin);
+                            user.put("name", name);
                             db.collection("users").document(email)
                                     .set(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
