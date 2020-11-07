@@ -1,12 +1,17 @@
 package au.edu.sydney.comp5216.patienttasks;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,7 +19,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -210,4 +214,46 @@ public class EditPatientActivity extends AppCompatActivity {
 
         }*/
     }
+
+    //Inflate menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edit_patient_tasks, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_delete was selected
+            case R.id.action_delete:
+                //Create dialog to prompt user to delete item
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditPatientActivity.this);
+                builder.setTitle(R.string.dialog_delete_title)
+                        .setMessage(R.string.dialog_delete_msg)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(EditPatientActivity.this, "Delete selected",
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                                //TODO: delete the current patient or task
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User cancelled the dialog
+                                // Nothing happens
+                            }
+                        });
+                builder.create().show();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+
 }

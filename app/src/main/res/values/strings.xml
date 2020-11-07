@@ -41,4 +41,8 @@
     <string name="dc_summary">DC summary</string>
     <string name="all_ready">All Ready</string>
     <string name="meds_sent">Meds Sent</string>
+    <string name="delete">Delete</string>
+    <string name="dialog_delete_title">Confirm Delete</string>
+    <string name="dialog_delete_msg">Are you sure you want to delete this?</string>
+    <string name="sort_filter">Sort/Filter</string>
 </resources>
