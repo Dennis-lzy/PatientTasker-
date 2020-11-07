@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         patientDao = db.patientDao(); // Patient Dao
         taskDao = db.taskDao(); // Task Dao
 
+        //Display PatientFragment as default on start
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new PatientsFragment()).commit();
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
