@@ -2,10 +2,10 @@ package au.edu.sydney.comp5216.patienttasks;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +35,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_ADD_TASK = 1;
     private static final int REQUEST_CODE_GO_TEAMS = 2;
     private static final int REQUEST_CODE_GO_SETTINGS = 3;
+
+    PatientsFragment pf;
+    TasksFragment tf;
+    DischargesFragment df;
 
     Button registerBtn, loginBtn;
 
@@ -97,13 +102,16 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
                     switch (item.getItemId()) {
                         case R.id.nav_patients:
-                            selectedFragment = new PatientsFragment();
+                            pf = new PatientsFragment();
+                            selectedFragment = pf;
                             break;
                         case R.id.nav_tasks:
-                            selectedFragment = new TasksFragment();
+                            tf = new TasksFragment();
+                            selectedFragment = tf;
                             break;
                         case R.id.nav_discharge:
-                            selectedFragment = new DischargesFragment();
+                            df = new DischargesFragment();
+                            selectedFragment = df;
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -129,6 +137,58 @@ public class MainActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_ADD_TASK);
         }
+    }
+
+    //sort/filter buttons are clicked
+    public void onSortFilterPatients(View v) {
+        String[] sortOptions = {"Name", "MRN", "Admission Date"};
+        final Comparator<PatientWithTaskCount> cp1 = new Comparator<PatientWithTaskCount>() {
+            @Override
+            public int compare(PatientWithTaskCount patientWithTaskCount, PatientWithTaskCount t1) {
+                return patientWithTaskCount.getPatientName().compareTo(t1.getPatientName());
+            }
+        };
+        final Comparator<PatientWithTaskCount> cp2 = new Comparator<PatientWithTaskCount>() {
+            @Override
+            public int compare(PatientWithTaskCount patientWithTaskCount, PatientWithTaskCount t1) {
+                if (patientWithTaskCount.getPatientRefNumber() - t1.getPatientRefNumber() > 0) {
+                    return 1;
+                }
+                return -1;
+            }
+        };
+        final Comparator<PatientWithTaskCount> cp3 = new Comparator<PatientWithTaskCount>() {
+            @Override
+            public int compare(PatientWithTaskCount patientWithTaskCount, PatientWithTaskCount t1) {
+                return patientWithTaskCount.getPatientAdmDate().compareTo(t1.getPatientAdmDate());
+            }
+        };
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Sort/Filter Patients")
+                .setSingleChoiceItems(sortOptions, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (pf != null) {
+                            if (i == 0) {
+                                pf.adapter.patients.sort(cp1);
+                            } else if (i == 1) {
+                                pf.adapter.patients.sort(cp2);
+                            } else if (i == 2) {
+                                pf.adapter.patients.sort(cp3);
+                            }
+                            pf.adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void onSortFilterTasks(View v) {
+
+    }
+
+    public void onSortFilterDischarges(View v) {
+
     }
 
     public void onTaskCheckboxClick(View v) {
