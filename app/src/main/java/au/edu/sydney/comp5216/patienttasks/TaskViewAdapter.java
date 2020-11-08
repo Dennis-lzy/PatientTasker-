@@ -20,7 +20,7 @@ import java.util.List;
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
 
     // Keep all tasks in list
-    public List<Task> tasks = new ArrayList<>();
+    public List<TaskWithPatient> tasks = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -40,10 +40,10 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Task task = tasks.get(position);
+        TaskWithPatient task = tasks.get(position);
         holder.name.setText(task.getTaskName());
-        holder.patient.setText("PatientID: " + task.getTask_patientID());
-        holder.assigned.setText("UserID: " + task.getTaskAssign_userID());
+        holder.patient.setText(task.getPatientName()+", "+task.getPatientMRN());
+        holder.assigned.setText("Assigned to: " + task.getUserName());
         holder.due.setText("Due Date: " + task.getTaskDueDate());
     }
 

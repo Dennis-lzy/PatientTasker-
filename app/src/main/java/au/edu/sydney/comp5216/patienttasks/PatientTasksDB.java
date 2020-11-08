@@ -10,7 +10,7 @@ public abstract class PatientTasksDB extends RoomDatabase {
     private static final String DATABASE_NAME = "patienttasks_db";
     private static PatientTasksDB DBINSTANCE;
 
-    public abstract UserDao toDoItemDao();
+    public abstract UserDao userDao();
     public abstract PatientDao patientDao();
     public abstract TaskDao taskDao();
     public abstract TeamDao teamDao();

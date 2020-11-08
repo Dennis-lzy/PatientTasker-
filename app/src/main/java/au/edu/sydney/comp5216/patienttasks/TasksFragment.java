@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -44,7 +45,41 @@ public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClick
 
                     Log.i("Tasks", "Database query for tasks retrieved " + taskDB.size() + " tasks.");
 
-                    adapter.tasks.addAll(taskDB);
+                    //SQL manual join to retrieve Patient name,MRN and assigned user
+
+                    //if the user assigned is the current user logged in, display "ME"
+                    //if the task is due today, display TODAY
+                    List<Patient> patientDB = PatientTasksDB.getDatabase(TasksFragment.this.getContext()).patientDao().listAll();
+                    HashMap<Integer, Patient> patientFromId = new HashMap<Integer, Patient>();
+                    for (Patient p : patientDB) {
+                        patientFromId.put(p.getPatientID(), p);
+                    }
+
+                    List<User> userDB = PatientTasksDB.getDatabase(TasksFragment.this.getContext()).userDao().listAll();
+                    HashMap<Integer, User> userFromId = new HashMap<Integer, User>();
+                    for (User p : userDB) {
+                        userFromId.put(p.getUserID(), p);
+                    }
+
+                    for (Task in : taskDB) {
+                        TaskWithPatient tp = new TaskWithPatient(in);
+                        Patient p = patientFromId.get(tp.getTask_patientID());
+                        if (p != null) {
+                            tp.setPatientMRN(p.getPatientRefNumber());
+                            tp.setPatientName(p.getPatientName());
+                        } else {
+                            tp.setPatientMRN(0);
+                            tp.setPatientName(String.valueOf(tp.getTask_patientID()));
+                        }
+                        User u = userFromId.get(tp.getTaskAssign_userID());
+                        if (u != null) {
+                            tp.setUserName(u.getUserName());
+                        } else {
+                            tp.setUserName(String.valueOf(tp.getTaskAssign_userID()));
+                        }
+                        adapter.tasks.add(tp);
+                    }
+
                     adapter.notifyDataSetChanged();
 
                     return null;

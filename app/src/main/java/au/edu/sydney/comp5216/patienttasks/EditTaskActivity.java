@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +34,17 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
     private static final String TAG = "Tasks";
     EditText nameEdit;
     EditText dateEdit;
+
     Spinner userSpin;
     ArrayAdapter<String> userSpinAdapter;
     ArrayList<String> users;
+    ArrayList<Integer> userIDs;
+
     Spinner patientSpin;
     ArrayAdapter<String> patientSpinAdapter;
     ArrayList<String> patients;
+    ArrayList<Integer> patientIDs;
+
     Spinner prioritySpin;
     ArrayAdapter<String> prioSpinAdapter;
     ArrayList<String> priorities;
@@ -50,12 +56,18 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
     ArrayList<String> subtasks;
     Task task;
 
+    Patient p;
+    boolean isEditing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
         patients = new ArrayList<>();
+        patientIDs = new ArrayList<>();
+
         users = new ArrayList<>();
+        userIDs = new ArrayList<>();
         priorities = new ArrayList<>();
         repeats = new ArrayList<>();
         for (int i = 1 ; i < 11; i++) {
@@ -69,10 +81,11 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    List<User> userDB = PatientTasksDB.getDatabase(EditTaskActivity.this).toDoItemDao().listAll();
+                    List<User> userDB = PatientTasksDB.getDatabase(EditTaskActivity.this).userDao().listAll();
                     Log.i("Users", "Database query for users retrieved " + userDB.size() + " users.");
                     for (User user : userDB) {
-                        users.add(Integer.toString(user.getUserID()));
+                        users.add(user.getUserName());
+                        userIDs.add(user.getUserID());
                     }
                     return null;
                 }
@@ -90,23 +103,36 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
         userSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpin.setAdapter(userSpinAdapter);
 
-        //database query (async) for fetching patients
-        try {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    List<Patient> patientDB = PatientTasksDB.getDatabase(EditTaskActivity.this).patientDao().listAll();
-                    Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
-                    for (Patient patient : patientDB) {
-                        patients.add(Integer.toString(patient.getPatientID()));
+        //has the patient already been provided or not? (ie. does the dropdown menu have to be used or not)
+        Serializable p = getIntent().getSerializableExtra("patient");
+
+        //are we creating a new task, or are we editing an existing task?
+        boolean isEditing = getIntent().getBooleanExtra("editing", false);
+
+        if (p instanceof String && ((String) p).isEmpty()) {
+            //database query (async) for fetching patients
+            try {
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        List<Patient> patientDB = PatientTasksDB.getDatabase(EditTaskActivity.this).patientDao().listAll();
+                        Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
+                        for (Patient patient : patientDB) {
+                            patients.add(patient.getPatientName()+", "+patient.getPatientRefNumber());
+                            patientIDs.add(patient.getPatientID());
+                        }
+                        return null;
                     }
-                    return null;
-                }
-            }.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                }.execute().get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Patient patientP = (Patient)p;
+            patients.add(patientP.getPatientName()+", "+patientP.getPatientRefNumber());
+            patientIDs.add(patientP.getPatientID());
         }
 
         // populate patients spinner
@@ -145,11 +171,11 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
         task = new Task(name);
 
         if (userSpin.getSelectedItem() != null) {
-            Integer user = Integer.parseInt(userSpin.getSelectedItem().toString());
+            int user = userIDs.get(userSpin.getSelectedItemPosition());
             task.setTaskAssign_userID(user);
         }
         if (patientSpin.getSelectedItem() != null) {
-            Integer patient = Integer.parseInt(patientSpin.getSelectedItem().toString());
+            int patient = patientIDs.get(patientSpin.getSelectedItemPosition());
             task.setTask_patientID(patient);
         }
         Integer priority = Integer.parseInt(prioritySpin.getSelectedItem().toString());
@@ -185,7 +211,7 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
         if (patientSpin.getSelectedItem() != null) {
             patientTask.put("Patient", patientSpin.getSelectedItem());
         }
-        patientTask.put("Dee Date", date);
+        patientTask.put("Due Date", date);
         patientTask.put("Priority", priority);
         patientTask.put("Repeat", repeat);
 

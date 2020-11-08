@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             //}});
 
         db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
-        userDao = db.toDoItemDao(); // User Dao
+        userDao = db.userDao(); // User Dao
         patientDao = db.patientDao(); // Patient Dao
         taskDao = db.taskDao(); // Task Dao
 
@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                             } else if (i == 2) {
                                 pf.adapter.patients.sort(cp3);
                             }
+                            Log.i("Sort/Filter patients", String.valueOf(i));
                             pf.adapter.notifyDataSetChanged();
                         }
                     }
