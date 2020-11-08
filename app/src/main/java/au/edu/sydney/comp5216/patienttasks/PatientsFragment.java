@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -44,7 +45,33 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
 
                     Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
 
-                    adapter.patients.addAll(patientDB);
+                    //manual SQL join to get task counts
+                    List<Task> tasks = PatientTasksDB.getDatabase(PatientsFragment.this.getContext()).taskDao().listAll();
+                    HashMap<Integer, int[]> patientIDtoInProgressCompletedTasks = new HashMap<Integer, int[]>();
+                    for (Task in : tasks){
+                        Integer patientID = in.getTask_patientID();
+                        int[] ipc = patientIDtoInProgressCompletedTasks.get(patientID);
+                        if (ipc == null) {
+                            ipc = new int[2];
+                        }
+                        if (in.isTaskCompleted()) {
+                            ipc[1] += 1;
+                        } else {
+                            ipc[0] += 1;
+                        }
+                        patientIDtoInProgressCompletedTasks.put(patientID, ipc);
+                    }
+
+                    for (Patient in : patientDB) {
+                        PatientWithTaskCount p = new PatientWithTaskCount(in);
+                        int[] ipc = patientIDtoInProgressCompletedTasks.get(p.getPatientID());
+                        if (ipc != null) {
+                            p.setTasksInProgress(ipc[0]);
+                            p.setTasksCompleted(ipc[1]);
+                        }
+                        adapter.patients.add(p);
+                    }
+
                     adapter.notifyDataSetChanged();
 
                     return null;

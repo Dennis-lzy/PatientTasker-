@@ -18,8 +18,7 @@ import java.util.List;
 public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.ViewHolder> {
 
     // Keep all Patients in list
-    //public List<PatientWithTaskCount> patients = new ArrayList<PatientWithTaskCount>();
-    public List<Patient> patients = new ArrayList<>();
+    public List<PatientWithTaskCount> patients = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -42,13 +41,12 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //PatientWithTaskCount p = patients.get(position);
-        Patient p = patients.get(position);
+        PatientWithTaskCount p = patients.get(position);
         holder.name.setText(p.getPatientName());
         holder.mrn.setText("MRN: "+p.getPatientRefNumber());
         //holder.diagnosis.setText("Dx: "+p.getPatientDiagnosis());
         holder.consultant.setText(p.getPatientConsultant());
-        //holder.tasksCount.setText(p.getTasksCompleted()+"/"+String.valueOf(p.getTasksCompleted()+p.getTasksInProgress()));
+        holder.tasksCount.setText(p.getTasksCompleted()+"/"+String.valueOf(p.getTasksCompleted()+p.getTasksInProgress()));
 
     }
 
@@ -67,7 +65,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView name;
         TextView mrn;
-        TextView tasks;
+        //TextView tasks;
         TextView diagnosis;
         TextView consultant;
         TextView tasksCount;
