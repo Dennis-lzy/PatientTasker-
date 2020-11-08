@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class EditTaskActivity extends AppCompatActivity {
+public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapter.ItemClickListener {
     private static final String TAG = "Tasks";
     EditText nameEdit;
     EditText dateEdit;
@@ -46,7 +46,7 @@ public class EditTaskActivity extends AppCompatActivity {
     ArrayAdapter<String> repeatSpinAdapter;
     ArrayList<String> repeats;
     RecyclerView subtaskView;
-    ArrayAdapter<String> subtaskAdapter;
+    TaskViewAdapter subtaskAdapter;
     ArrayList<String> subtasks;
     Task task;
 
@@ -130,12 +130,10 @@ public class EditTaskActivity extends AppCompatActivity {
         repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repeatSpin.setAdapter(repeatSpinAdapter);
 
-        //TODO: need to populate recyclerView with RecyclerViewAdapter of subtasks
         subtaskView = findViewById(R.id.recyclerview_subtasks);
-        subtaskAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, subtasks);
-        subtaskAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //subtaskView.setAdapter(subtaskAdapter);
+        subtaskAdapter = new TaskViewAdapter(this.getApplicationContext());
+        subtaskAdapter.setClickListener(this);
+        subtaskView.setAdapter(subtaskAdapter);
     }
 
     public void onSave(View v) {
@@ -180,6 +178,17 @@ public class EditTaskActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         //Need to add fields
         Map<String, Object> patientTask = new HashMap<>();
+        patientTask.put("Name", name);
+        if (userSpin.getSelectedItem() != null) {
+            patientTask.put("Assigned to", userSpin.getSelectedItem());
+        }
+        if (patientSpin.getSelectedItem() != null) {
+            patientTask.put("Patient", patientSpin.getSelectedItem());
+        }
+        patientTask.put("Dee Date", date);
+        patientTask.put("Priority", priority);
+        patientTask.put("Repeat", repeat);
+
         db.collection("Tasks").document()
                 .set(patientTask)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -205,7 +214,28 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     public void addSubtask(View v) {
-        //TODO: Add a new subtask to recyclerView upon clicking the green button
+        Toast.makeText(this.getApplicationContext(), "Adding subtask ", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this.getApplicationContext(), EditTaskActivity.class);
+        intent.putExtra("editing", false);
+        intent.putExtra("task", subtaskAdapter.tasks.size());
+
+        if (intent.resolveActivity(this.getApplicationContext().getPackageManager()) != null) {
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this.getApplicationContext(), "Editing task " + subtaskAdapter.tasks.get(position).getTaskName() + " on row number " + position, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this.getApplicationContext(), EditTaskActivity.class);
+        intent.putExtra("editing", true);
+        intent.putExtra("task", subtaskAdapter.tasks.get(position));
+
+        if (intent.resolveActivity(this.getApplicationContext().getPackageManager()) != null) {
+            startActivityForResult(intent, 0);
+        }
     }
 
     //Inflate menu
@@ -230,7 +260,7 @@ public class EditTaskActivity extends AppCompatActivity {
                                 Toast.makeText(EditTaskActivity.this, "Delete selected",
                                         Toast.LENGTH_SHORT)
                                         .show();
-                                //TODO: delete the current patient or task
+
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

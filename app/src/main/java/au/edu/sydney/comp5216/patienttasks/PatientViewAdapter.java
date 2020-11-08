@@ -1,6 +1,7 @@
 package au.edu.sydney.comp5216.patienttasks;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView name;
         TextView mrn;
         TextView tasks;
@@ -85,6 +87,29 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            // Handle long click
+            // Return true to indicate the click was handled
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle(R.string.dialog_delete_title)
+                    .setMessage(R.string.dialog_delete_msg)
+                    .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            patients.remove(getAdapterPosition());
+                            notifyDataSetChanged(); // Notify listView adapter to update the list
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User cancelled the dialog
+                            // Nothing happens
+                        }
+                    });
+            builder.create().show();
+            return true;
         }
     }
 
