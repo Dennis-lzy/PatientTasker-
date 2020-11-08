@@ -88,8 +88,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
-                            user.put("password", password);
-                            user.put("pin", pin);
                             user.put("name", name);
                             //Michael: changed document name to UID (as users can change their
                             // email)
