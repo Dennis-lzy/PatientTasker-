@@ -19,9 +19,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,7 +91,11 @@ public class RegistrationActivity extends AppCompatActivity {
                             user.put("password", password);
                             user.put("pin", pin);
                             user.put("name", name);
-                            db.collection("users").document(email)
+                            //Michael: changed document name to UID (as users can change their
+                            // email)
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                            String uid = currentUser.getUid();
+                            db.collection("users").document(uid)
                                     .set(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -103,6 +109,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
+                            updateEmailUid(email);
                         }
                         else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -120,5 +127,19 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordTV = findViewById(R.id.password);
         regBtn = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
+    }
+
+    //Each user has a document under collection "user" named with their uid. UIDs are important
+    // for the cloudstore security rules. Need a way to look up emails with UIDs
+    public void updateEmailUid (String email){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+        email = email.replace(".", ",");
+        db.collection("user").document("UIDtoEmail").update(uid, email);
+        db.collection("user").document("emailToUID").update(email, uid);
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", email);
+        db.collection("user").document(uid).set(user);
     }
 }

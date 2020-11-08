@@ -2,15 +2,20 @@ package au.edu.sydney.comp5216.patienttasks;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private Query mQuery;
 
+    private static final int REQUEST_CODE_ADD_PATIENT = 0;
+    private static final int REQUEST_CODE_ADD_TASK = 1;
+    private static final int REQUEST_CODE_GO_TEAMS = 2;
+    private static final int REQUEST_CODE_GO_SETTINGS = 3;
+
     Button registerBtn, loginBtn;
 
     @Override
@@ -71,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         userDao = db.toDoItemDao(); // User Dao
         patientDao = db.patientDao(); // Patient Dao
         taskDao = db.taskDao(); // Task Dao
+
+        //Search Firebase for database -if not exist then go to TeamActivity
 
         //Display PatientFragment as default on start
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -105,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("editing", false);
 
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, REQUEST_CODE_ADD_PATIENT);
         }
     }
 
@@ -115,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("patient", "");
 
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, 1);
+            startActivityForResult(intent, REQUEST_CODE_ADD_TASK);
         }
     }
 
@@ -152,5 +164,37 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    //Inflate menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_delete was selected
+            case R.id.action_team:
+                Intent teamIntent = new Intent(MainActivity.this, TeamActivity.class);
+                if (teamIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(teamIntent, REQUEST_CODE_GO_TEAMS);
+                }
+
+                break;
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                if (settingsIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(settingsIntent, REQUEST_CODE_GO_TEAMS);
+                }
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 }
