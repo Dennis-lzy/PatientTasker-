@@ -108,31 +108,37 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
 
         //are we creating a new task, or are we editing an existing task?
         boolean isEditing = getIntent().getBooleanExtra("editing", false);
-
-        if (p instanceof String && ((String) p).isEmpty()) {
-            //database query (async) for fetching patients
-            try {
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        List<Patient> patientDB = PatientTasksDB.getDatabase(EditTaskActivity.this).patientDao().listAll();
-                        Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
-                        for (Patient patient : patientDB) {
-                            patients.add(patient.getPatientName()+", "+patient.getPatientRefNumber());
-                            patientIDs.add(patient.getPatientID());
-                        }
-                        return null;
-                    }
-                }.execute().get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if (isEditing) {
+            TaskWithPatient tp = (TaskWithPatient)getIntent().getSerializableExtra("task");
+            patients.add(tp.getPatientName() + ", " + tp.getPatientMRN());
+            patientIDs.add(tp.getTask_patientID());
         } else {
-            Patient patientP = (Patient)p;
-            patients.add(patientP.getPatientName()+", "+patientP.getPatientRefNumber());
-            patientIDs.add(patientP.getPatientID());
+
+            if (p instanceof String && ((String) p).isEmpty()) {
+                //database query (async) for fetching patients
+                try {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            List<Patient> patientDB = PatientTasksDB.getDatabase(EditTaskActivity.this).patientDao().listAll();
+                            Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
+                            for (Patient patient : patientDB) {
+                                patients.add(patient.getPatientName() + ", " + patient.getPatientRefNumber());
+                                patientIDs.add(patient.getPatientID());
+                            }
+                            return null;
+                        }
+                    }.execute().get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Patient patientP = (Patient) p;
+                patients.add(patientP.getPatientName() + ", " + patientP.getPatientRefNumber());
+                patientIDs.add(patientP.getPatientID());
+            }
         }
 
         // populate patients spinner

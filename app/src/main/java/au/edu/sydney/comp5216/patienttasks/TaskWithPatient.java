@@ -1,6 +1,8 @@
 package au.edu.sydney.comp5216.patienttasks;
 
-public class TaskWithPatient extends Task {
+import java.io.Serializable;
+
+public class TaskWithPatient extends Task implements Serializable {
 
     String patientName;
     int patientMRN;
