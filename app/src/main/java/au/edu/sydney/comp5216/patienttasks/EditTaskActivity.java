@@ -264,12 +264,15 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         }
 
         setResult(RESULT_OK); // set result code
-        finish(); // closes the activity, pass data to parent
+        Intent intent = new Intent(EditTaskActivity.this, MainActivitySignedOn.class);
+        startActivity(intent);
+
     }
 
     public void onCancel(View v) {
         setResult(RESULT_CANCELED); // set result code
-        finish(); // closes the activity
+        Intent intent = new Intent(EditTaskActivity.this, MainActivitySignedOn.class);
+        startActivity(intent);
     }
 
     public void addSubtask(View v) {
