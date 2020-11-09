@@ -2,6 +2,8 @@ package au.edu.sydney.comp5216.patienttasks;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +43,34 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TaskWithPatient task = tasks.get(position);
+        final TaskWithPatient task = tasks.get(position);
         holder.name.setText(task.getTaskName());
         holder.patient.setText(task.getPatientName()+", "+task.getPatientMRN());
         holder.assigned.setText("Assigned to: " + task.getUserName());
         holder.due.setText("Due Date: " + task.getTaskDueDate());
+        holder.subtask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            if (task.isTaskCompleted()) {
+                                PatientTasksDB.getDatabase(mContext).taskDao().uncompleteTask(task.getTaskID());
+                                Log.i("SQLite uncompleted item", "Task: " + task.getTaskName() + '\n');
+                            } else {
+                                PatientTasksDB.getDatabase(mContext).taskDao().completeTask(task.getTaskID());
+                                Log.i("SQLite completed item", "Task: " + task.getTaskName() + '\n');
+                            }
+
+                            return null;
+                        }
+                    }.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     // total number of rows

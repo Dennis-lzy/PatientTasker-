@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                                 tf.adapter.tasks = tf.adapter.fullTasks;
                                 tf.adapter.fullTasks = null;
                             }
-                            Log.i("Sort/Filter tasks", String.valueOf(i));
+                            Log.i("Sort/Filter tasks", String.valueOf(i)+","+String.valueOf(b));
                             tf.adapter.notifyDataSetChanged();
                         }
                     }

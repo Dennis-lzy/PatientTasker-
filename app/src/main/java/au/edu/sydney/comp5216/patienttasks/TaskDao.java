@@ -19,6 +19,12 @@ public interface TaskDao {
     @Update
     void update(Task task);
 
+    @Query("UPDATE task SET taskCompleted=1 WHERE taskID=:tid")
+    void completeTask(int tid);
+
+    @Query("UPDATE task SET taskCompleted=0 WHERE taskID=:tid")
+    void uncompleteTask(int tid);
+
     @Insert
     void insertAll(Task... tasks);
 
