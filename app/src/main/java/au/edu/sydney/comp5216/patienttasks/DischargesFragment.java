@@ -1,7 +1,9 @@
 package au.edu.sydney.comp5216.patienttasks;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class DischargesFragment extends Fragment implements DischargeViewAdapter.ItemClickListener {
 
     DischargeViewAdapter adapter;
@@ -22,7 +28,38 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_discharges, container, false);
+
+        View viw =inflater.inflate(R.layout.fragment_discharges, container, false);
+
+        //database query (async) for fetching patients
+        try {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    List<Patient> patientDB = PatientTasksDB.getDatabase(DischargesFragment.this.getContext()).patientDao().listAll();
+
+                    Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
+
+                    //manual SQL join to get task counts
+                    List<Task> tasks = PatientTasksDB.getDatabase(DischargesFragment.this.getContext()).taskDao().listAll();
+
+                    for (Patient in : patientDB) {
+                        if (!in.isPatientDischarged()) {
+                            adapter.patients.add(in);
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return viw;
     }
 
     @Override
