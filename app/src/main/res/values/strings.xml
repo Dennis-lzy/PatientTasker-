@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PatientTasks</string>
+    <string name="app_name">PatientTasker</string>
     <string name="nav_title_discharges">Discharges</string>
     <string name="nav_title_tasks">Tasks</string>
     <string name="nav_title_patients">Patients</string>
