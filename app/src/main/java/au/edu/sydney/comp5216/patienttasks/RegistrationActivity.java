@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,8 +35,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTV, passwordTV, nameTV, pinTV;
     private Button regBtn;
     private ProgressBar progressBar;
+    private Spinner teams;
     private static final String TAG = "RegistrationActivity";
     private FirebaseAuth mAuth;
+    private String[] teamList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +59,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private void registerNewUser() {
         progressBar.setVisibility(View.VISIBLE);
 
-        final String email, password, pin, name;
+        final String email, password, pin, name, team;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
         pin = pinTV.getText().toString();
         name= nameTV.getText().toString();
+        team = teams.getSelectedItem().toString();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -89,6 +95,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
                             user.put("name", name);
+                            user.put("Team", team);
                             //Michael: changed document name to UID (as users can change their
                             // email)
                             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -125,6 +132,11 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordTV = findViewById(R.id.password);
         regBtn = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
+        teams = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teamList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        teams.setAdapter(adapter);
+        teams.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
     }
 
     //Each user has a document under collection "user" named with their uid. UIDs are important
