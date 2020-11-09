@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapter.ItemClickListener {
+public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAdapter.ItemClickListener {
     private static final String TAG = "Tasks";
     EditText nameEdit;
     EditText dateEdit;
@@ -52,8 +53,8 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
     ArrayAdapter<String> repeatSpinAdapter;
     ArrayList<String> repeats;
     RecyclerView subtaskView;
-    TaskViewAdapter subtaskAdapter;
-    ArrayList<String> subtasks;
+    SubtaskViewAdapter subtaskAdapter;
+    //ArrayList<String> subtasks;
     Task task;
 
     Patient p;
@@ -163,9 +164,11 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
         repeatSpin.setAdapter(repeatSpinAdapter);
 
         subtaskView = findViewById(R.id.recyclerview_subtasks);
-        subtaskAdapter = new TaskViewAdapter(this.getApplicationContext());
+        subtaskAdapter = new SubtaskViewAdapter(this.getApplicationContext());
         subtaskAdapter.setClickListener(this);
         subtaskView.setAdapter(subtaskAdapter);
+
+
     }
 
     public void onSave(View v) {
@@ -250,28 +253,60 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
     }
 
     public void addSubtask(View v) {
-        Toast.makeText(this.getApplicationContext(), "Adding subtask ", Toast.LENGTH_SHORT).show();
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(EditTaskActivity.this);
+        final EditText enter = new EditText(this);
+        builder.setTitle("Add new subtask")
+                .setView(enter)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final String subtaskText = enter.getText().toString();
+                        final SubTask st = new SubTask(subtaskText);
+                        st.setSubTask_TaskID(task.getTaskID());
+                        try {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().insert(st);
+                                    Log.i("SQLite saved item", "SubTask: "+ subtaskText + '\n');
+                                    return null;
+                                }
+                            }.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        subtaskAdapter.subtasks.add(st);
+                        subtaskAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User cancelled the dialog
+                        // Nothing happens
+                    }
+                });
+        builder.create().show();
 
-        Intent intent = new Intent(this.getApplicationContext(), EditTaskActivity.class);
-        intent.putExtra("editing", false);
-        intent.putExtra("task", subtaskAdapter.tasks.size());
-
-        if (intent.resolveActivity(this.getApplicationContext().getPackageManager()) != null) {
-            startActivityForResult(intent, 0);
-        }
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(this.getApplicationContext(), "Editing task " + subtaskAdapter.tasks.get(position).getTaskName() + " on row number " + position, Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this.getApplicationContext(), EditTaskActivity.class);
-        intent.putExtra("editing", true);
-        intent.putExtra("task", subtaskAdapter.tasks.get(position));
-
-        if (intent.resolveActivity(this.getApplicationContext().getPackageManager()) != null) {
-            startActivityForResult(intent, 0);
+    public void onItemClick(View view, final int position) {
+        CheckBox cb = view.findViewById(R.id.checkBox_subtask_complete);
+        if (cb.isChecked()) {
+            cb.setChecked(false);
+            subtaskAdapter.subtasks.get(position).setSubTaskCompleted(0);
+        } else {
+            cb.setChecked(true);
+            subtaskAdapter.subtasks.get(position).setSubTaskCompleted(1);
         }
+        subtaskAdapter.notifyDataSetChanged();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().insert(subtaskAdapter.subtasks.get(position));
+                Log.i("SQLite saved item", "SubTask: "+ subtaskAdapter.subtasks.get(position).getSubTaskName() + '\n');
+                return null;
+            }
+        }.execute();
     }
 
     //Inflate menu
