@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //Firebase
@@ -70,17 +71,16 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+        FirebaseUser curr_user = FirebaseAuth.getInstance().getCurrentUser();
+        if(curr_user == null){
+            Intent intent = new Intent( MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(MainActivity.this, EnterPinActivity.class);
+             startActivity(intent);
 
-        //Button addTask = (Button)findViewById(R.id.floatingActionButton2);
-        //addTask.setOnClickListener(new View.OnClickListener() {
-            //public void onClick(View v) {
-                //Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
-                //intent.putExtra("editing", false);
 
-                //if (intent.resolveActivity(getPackageManager()) != null) {
-                    //startActivityForResult(intent, 1);
-                //}
-            //}});
+        }
 
         db = PatientTasksDB.getDatabase(this.getApplication().getApplicationContext());
         userDao = db.userDao(); // User Dao

@@ -44,7 +44,7 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
         PatientWithTaskCount p = patients.get(position);
         holder.name.setText(p.getPatientName());
         holder.mrn.setText("MRN: "+p.getPatientRefNumber());
-        //holder.diagnosis.setText("Dx: "+p.getPatientDiagnosis());
+        holder.diagnosis.setText("Dx: "+p.getDiagnosis());
         holder.consultant.setText(p.getPatientConsultant());
         holder.tasksCount.setText(p.getTasksCompleted()+"/"+String.valueOf(p.getTasksCompleted()+p.getTasksInProgress()));
 
