@@ -29,7 +29,7 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
                              @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
 
-        View viw =inflater.inflate(R.layout.fragment_discharges, container, false);
+        View viw = inflater.inflate(R.layout.fragment_discharges, container, false);
         RecyclerView recyclerView = viw.findViewById(R.id.recyclerView3);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new DischargeViewAdapter(this.getContext());
@@ -41,18 +41,11 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    List<Patient> patientDB = PatientTasksDB.getDatabase(DischargesFragment.this.getContext()).patientDao().listAll();
+                    List<Patient> patientDB = PatientTasksDB.getDatabase(DischargesFragment.this.getContext()).patientDao().listUndischarged();
 
                     Log.i("Patients", "Database query for patients retrieved " + patientDB.size() + " patients.");
 
-                    //manual SQL join to get task counts
-                    List<Task> tasks = PatientTasksDB.getDatabase(DischargesFragment.this.getContext()).taskDao().listAll();
-
-                    for (Patient in : patientDB) {
-                        if (!in.isPatientDischarged()) {
-                            adapter.patients.add(in);
-                        }
-                    }
+                    adapter.patients.addAll(patientDB);
 
                     adapter.notifyDataSetChanged();
 
@@ -65,16 +58,6 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
             e.printStackTrace();
         }
         return viw;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // set up the RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView3);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new DischargeViewAdapter(this.getContext());
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override

@@ -141,6 +141,8 @@ public class EditPatientActivity extends AppCompatActivity {
         p.setDiagnosis(editText_diagnosis.getText().toString());
         p.setPatientNotes(editText_notes.getText().toString());
 
+        PatientWithTaskCount pwtc = new PatientWithTaskCount(p);
+
         if (isEditing) {
             //update exiting patient
             //PatientTasksDB.getDatabase(this).patientDao().update(p.getPatientID(), p);
@@ -171,6 +173,7 @@ public class EditPatientActivity extends AppCompatActivity {
 
             isEditing = true;
             if (MainActivity.pf != null) {
+                MainActivity.pf.adapter.patients.add(pwtc);
                 MainActivity.pf.adapter.notifyDataSetChanged();
             }
         }

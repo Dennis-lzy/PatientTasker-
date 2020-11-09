@@ -173,7 +173,6 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
 
     public void onSave(View v) {
 
-
         //fetch data from the input fields
         nameEdit = findViewById(R.id.editText_task_name);
         dateEdit = findViewById(R.id.editText_due_date);
@@ -195,6 +194,20 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         task.setTaskDueDate(date);
         task.setTaskPriority(priority);
         task.setTaskRepeat(repeat);
+        TaskWithPatient taskp = new TaskWithPatient(task);
+        if (userSpin.getSelectedItem() != null) {
+            taskp.setUserName(users.get(userSpin.getSelectedItemPosition()));
+        }
+        if (patientSpin.getSelectedItem() != null) {
+            String[] pparts = patients.get(patientSpin.getSelectedItemPosition()).split(", ");
+            int patientMRN = Integer.parseInt(pparts[pparts.length-1]);
+            StringBuilder patientName = new StringBuilder(pparts[0]);
+            for (int i = 1; i < pparts.length-1; i++) {
+                patientName.append(", "+pparts[i]);
+            }
+            taskp.setPatientName(patientName.toString());
+            taskp.setPatientMRN(patientMRN);
+        }
 
         if (isEditing) {
 
@@ -213,6 +226,10 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (MainActivity.tf != null) {
+                MainActivity.tf.adapter.tasks.add(taskp);
+                MainActivity.tf.adapter.notifyDataSetChanged();
+            }
         } else {
             // insert task in database (async)
             try {
@@ -229,6 +246,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
             }
 
             if (MainActivity.tf != null) {
+                MainActivity.tf.adapter.tasks.add(taskp);
                 MainActivity.tf.adapter.notifyDataSetChanged();
             }
 

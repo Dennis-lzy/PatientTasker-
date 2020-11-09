@@ -24,6 +24,9 @@ public interface PatientDao {
     @Query("DELETE FROM patient")
     void deleteAll();
 
+    @Query("SELECT * FROM patient WHERE patientDischarged=0")
+    List<Patient> listUndischarged();
+
     @Query("SELECT p.patientID," +
             "p.patientName," +
             "p.patientRefNumber," +
