@@ -148,6 +148,8 @@ public class EditPatientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
+                    Patient oldPatient = (Patient)getIntent().getSerializableExtra("patient");
+                    PatientTasksDB.getDatabase(EditPatientActivity.this).patientDao().delete(oldPatient);
                     PatientTasksDB.getDatabase(EditPatientActivity.this).patientDao().insert(p);
                     Log.i("SQLite saved item", "Patient "+p.getPatientName()+", "+p.getPatientID()+", "+p.getPatientRefNumber());
                     return null;
