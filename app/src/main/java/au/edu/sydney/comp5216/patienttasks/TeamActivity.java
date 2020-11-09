@@ -71,7 +71,9 @@ public class TeamActivity extends AppCompatActivity implements TeamListViewAdapt
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     teamNames = (ArrayList<String>) document.getData().get("teamList");
-                                    adapter.teams.addAll(teamNames);
+                                    if (teamNames!= null){
+                                        adapter.teams.addAll(teamNames);
+                                    }
                                     adapter.notifyDataSetChanged();
                                     Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                     Log.d(TAG, String.valueOf(document.getData().get("teamList")));
@@ -123,7 +125,7 @@ public class TeamActivity extends AppCompatActivity implements TeamListViewAdapt
         builder.show();
     }
 
-    public void createTeam (String teamName){
+    public void createTeam (final String teamName){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
@@ -139,6 +141,9 @@ public class TeamActivity extends AppCompatActivity implements TeamListViewAdapt
                         Toast.makeText(TeamActivity.this, "Team created",
                                 Toast.LENGTH_SHORT)
                                 .show();
+                        adapter.teams.add(teamName);
+                        adapter.notifyDataSetChanged();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -163,6 +168,7 @@ public class TeamActivity extends AppCompatActivity implements TeamListViewAdapt
                         Log.w(TAG, "Error adding to personal store", e);
                     }
                 });
+
     }
 
     public void getTeamListOfUser (){
