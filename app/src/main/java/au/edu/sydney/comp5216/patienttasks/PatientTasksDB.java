@@ -21,7 +21,7 @@ public abstract class PatientTasksDB extends RoomDatabase {
         if (DBINSTANCE == null) {
             synchronized (PatientTasksDB.class) {
                 DBINSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        PatientTasksDB.class, DATABASE_NAME).build();
+                        PatientTasksDB.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
             }
         }
         return DBINSTANCE;
