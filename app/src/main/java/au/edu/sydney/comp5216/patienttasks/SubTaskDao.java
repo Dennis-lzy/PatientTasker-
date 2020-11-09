@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ public interface SubTaskDao {
 
     @Insert
     void insert(SubTask subTask);
+
+    @Update
+    void update(SubTask subTask);
 
     @Insert
     void insertAll(SubTask... subTasks);

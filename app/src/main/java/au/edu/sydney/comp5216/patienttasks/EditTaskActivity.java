@@ -3,6 +3,7 @@ package au.edu.sydney.comp5216.patienttasks;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -167,6 +168,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         repeatSpin.setAdapter(repeatSpinAdapter);
 
         subtaskView = findViewById(R.id.recyclerview_subtasks);
+        subtaskView.setLayoutManager(new LinearLayoutManager(EditTaskActivity.this));
         subtaskAdapter = new SubtaskViewAdapter(this.getApplicationContext());
 
         try {
@@ -238,8 +240,8 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
                     @Override
                     protected Void doInBackground(Void... voids) {
                         Task oldTask = (Task) getIntent().getSerializableExtra("task");
-                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().delete(oldTask);
-                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().insert(task);
+                        //PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().delete(oldTask);
+                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().update(task);
                         Log.i("SQLite saved item", "Task: " + task.getTaskName() + '\n');
                         return null;
                     }
@@ -364,7 +366,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().insert(subtaskAdapter.subtasks.get(position));
+                PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().update(subtaskAdapter.subtasks.get(position));
                 Log.i("SQLite saved item", "SubTask: "+ subtaskAdapter.subtasks.get(position).getSubTaskName() + '\n');
                 return null;
             }

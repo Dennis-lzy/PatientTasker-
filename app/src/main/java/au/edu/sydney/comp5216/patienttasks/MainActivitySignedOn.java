@@ -75,8 +75,9 @@ public class MainActivitySignedOn extends AppCompatActivity {
         //Search Firebase for database -if not exist then go to TeamActivity
 
         //Display PatientFragment as default on start
+        pf = new PatientsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new PatientsFragment()).commit();
+                pf).commit();
 
     }
 
