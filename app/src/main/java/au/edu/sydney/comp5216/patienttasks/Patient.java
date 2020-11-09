@@ -48,6 +48,13 @@ public class Patient implements Serializable {
     @ColumnInfo(name = "patientDischarged")
     private boolean patientDischarged;
 
+    @ColumnInfo(name = "diagnosis")
+    private String diagnosis;
+
+    public String getDiagnosis() {return this.diagnosis;}
+
+    public void setDiagnosis(String s) {this.diagnosis = s;}
+
     public boolean isPatientDischarged() {
         return patientDischarged;
     }

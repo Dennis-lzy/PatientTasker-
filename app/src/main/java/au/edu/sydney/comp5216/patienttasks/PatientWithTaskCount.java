@@ -24,6 +24,7 @@ public class PatientWithTaskCount extends Patient {
         setPatientMeds(p.isPatientMeds());
         setPatientSumm(p.isPatientSumm());
         setPatientID(p.getPatientID());
+        setDiagnosis(p.getDiagnosis());
     }
 
     public int getTasksInProgress() {return this.tasksInProgress;}
