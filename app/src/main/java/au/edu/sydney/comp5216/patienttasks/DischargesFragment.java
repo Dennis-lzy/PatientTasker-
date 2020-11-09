@@ -30,6 +30,11 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
         //return super.onCreateView(inflater, container, savedInstanceState);
 
         View viw =inflater.inflate(R.layout.fragment_discharges, container, false);
+        RecyclerView recyclerView = viw.findViewById(R.id.recyclerView3);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new DischargeViewAdapter(this.getContext());
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
 
         //database query (async) for fetching patients
         try {
