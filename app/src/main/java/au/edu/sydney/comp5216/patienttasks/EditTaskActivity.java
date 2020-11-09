@@ -206,6 +206,10 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
             e.printStackTrace();
         }
 
+        if (MainActivity.tf != null) {
+            MainActivity.tf.adapter.notifyDataSetChanged();
+        }
+
         //Add to Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         //Need to add fields

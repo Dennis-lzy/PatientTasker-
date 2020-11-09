@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_GO_TEAMS = 2;
     private static final int REQUEST_CODE_GO_SETTINGS = 3;
 
-    static PatientsFragment pf;
-    static TasksFragment tf;
-    static DischargesFragment df;
+    public static PatientsFragment pf;
+    public static TasksFragment tf;
+    public static DischargesFragment df;
 
     Button registerBtn, loginBtn;
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     //sort/filter buttons are clicked
     public void onSortFilterPatients(View v) {
-        String[] sortOptions = {"Name", "MRN", "Admission Date"};
+        String[] sortOptions = {"Name", "MRN", "Admission Date", "Filter discharged"};
         final Comparator<PatientWithTaskCount> cp1 = new Comparator<PatientWithTaskCount>() {
             @Override
             public int compare(PatientWithTaskCount patientWithTaskCount, PatientWithTaskCount t1) {
@@ -163,18 +163,36 @@ public class MainActivity extends AppCompatActivity {
                 return patientWithTaskCount.getPatientAdmDate().compareTo(t1.getPatientAdmDate());
             }
         };
+        int selectedItem = -1;
+        if (pf.adapter.fullPatients != null) {
+            selectedItem = 3;
+        }
         android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Sort/Filter Patients")
-                .setSingleChoiceItems(sortOptions, -1, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(sortOptions, selectedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (pf != null) {
                             if (i == 0) {
                                 pf.adapter.patients.sort(cp1);
+                                pf.adapter.patients = pf.adapter.fullPatients;
+                                pf.adapter.fullPatients = null;
                             } else if (i == 1) {
                                 pf.adapter.patients.sort(cp2);
+                                pf.adapter.patients = pf.adapter.fullPatients;
+                                pf.adapter.fullPatients = null;
                             } else if (i == 2) {
                                 pf.adapter.patients.sort(cp3);
+                                pf.adapter.patients = pf.adapter.fullPatients;
+                                pf.adapter.fullPatients = null;
+                            } else if (i == 3) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
                             }
                             Log.i("Sort/Filter patients", String.valueOf(i));
                             pf.adapter.notifyDataSetChanged();
@@ -185,7 +203,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSortFilterTasks(View v) {
+        String[] sortOptions = {"Filter completed"};
+        boolean[] selectedItem = {false};
+        if (tf.adapter.fullTasks != null) {
+            selectedItem[0] = true;
+        }
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Sort/Filter Tasks")
+                .setMultiChoiceItems(sortOptions, selectedItem, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if (tf != null) {
+                            if (b) {
+                                tf.adapter.fullTasks = tf.adapter.tasks;
+                                tf.adapter.tasks = new ArrayList<>();
+                                for (TaskWithPatient in : tf.adapter.fullTasks) {
+                                    if (!in.isTaskCompleted()) {
+                                        tf.adapter.tasks.add(in);
+                                    }
+                                }
+                            } else {
+                                tf.adapter.tasks = tf.adapter.fullTasks;
+                                tf.adapter.fullTasks = null;
+                            }
+                            Log.i("Sort/Filter tasks", String.valueOf(i));
+                            tf.adapter.notifyDataSetChanged();
+                        }
+                    }
 
+                });
+        builder.create().show();
     }
 
     public void onSortFilterDischarges(View v) {

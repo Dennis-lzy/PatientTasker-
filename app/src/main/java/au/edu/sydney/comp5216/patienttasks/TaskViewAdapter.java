@@ -21,6 +21,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
 
     // Keep all tasks in list
     public List<TaskWithPatient> tasks = new ArrayList<>();
+    public List<TaskWithPatient> fullTasks = null;
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
