@@ -58,6 +58,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
     Task task;
 
     Patient p;
+    TaskWithPatient tpHolder;
     boolean isEditing;
 
     @Override
@@ -111,6 +112,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         boolean isEditing = getIntent().getBooleanExtra("editing", false);
         if (isEditing) {
             TaskWithPatient tp = (TaskWithPatient)getIntent().getSerializableExtra("task");
+            tpHolder = tp;
             patients.add(tp.getPatientName() + ", " + tp.getPatientMRN());
             patientIDs.add(tp.getTask_patientID());
         } else {
@@ -137,6 +139,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
                 }
             } else {
                 Patient patientP = (Patient) p;
+                this.p = patientP;
                 patients.add(patientP.getPatientName() + ", " + patientP.getPatientRefNumber());
                 patientIDs.add(patientP.getPatientID());
             }
@@ -302,7 +305,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
                     public void onClick(DialogInterface dialogInterface, int i) {
                         final String subtaskText = enter.getText().toString();
                         final SubTask st = new SubTask(subtaskText);
-                        st.setSubTask_TaskID(task.getTaskID());
+                        st.setSubTask_TaskID(tpHolder.getTaskID());
                         try {
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
