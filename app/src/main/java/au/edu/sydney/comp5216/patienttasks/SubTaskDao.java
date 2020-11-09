@@ -12,6 +12,9 @@ public interface SubTaskDao {
     @Query("SELECT * FROM subtask")
     List<SubTask> listAll();
 
+    @Query("SELECT * FROM subtask WHERE subTask_TaskID =:tid")
+    List<SubTask> listWhere(int tid);
+
     @Insert
     void insert(SubTask subTask);
 

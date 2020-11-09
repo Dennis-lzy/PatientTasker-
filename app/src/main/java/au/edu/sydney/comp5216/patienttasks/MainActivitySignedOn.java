@@ -152,24 +152,22 @@ public class MainActivitySignedOn extends AppCompatActivity {
         if (pf.adapter.fullPatients != null) {
             selectedItem = 3;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivitySignedOn.this);
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivitySignedOn.this);
         builder.setTitle("Sort/Filter Patients")
                 .setSingleChoiceItems(sortOptions, selectedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (pf != null) {
+                            if (pf.adapter.fullPatients != null) {
+                                pf.adapter.patients = pf.adapter.fullPatients;
+                                pf.adapter.fullPatients = null;
+                            }
                             if (i == 0) {
                                 pf.adapter.patients.sort(cp1);
-                                pf.adapter.patients = pf.adapter.fullPatients;
-                                pf.adapter.fullPatients = null;
                             } else if (i == 1) {
                                 pf.adapter.patients.sort(cp2);
-                                pf.adapter.patients = pf.adapter.fullPatients;
-                                pf.adapter.fullPatients = null;
                             } else if (i == 2) {
                                 pf.adapter.patients.sort(cp3);
-                                pf.adapter.patients = pf.adapter.fullPatients;
-                                pf.adapter.fullPatients = null;
                             } else if (i == 3) {
                                 pf.adapter.fullPatients = pf.adapter.patients;
                                 pf.adapter.patients = new ArrayList<>();
@@ -193,7 +191,7 @@ public class MainActivitySignedOn extends AppCompatActivity {
         if (tf.adapter.fullTasks != null) {
             selectedItem[0] = true;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivitySignedOn.this);
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivitySignedOn.this);
         builder.setTitle("Sort/Filter Tasks")
                 .setMultiChoiceItems(sortOptions, selectedItem, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
