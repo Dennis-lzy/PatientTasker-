@@ -73,7 +73,6 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
         CheckBox checkBox_webster;
         TextView text_name;
         TextView text_dc_date;
-        TextView text_diagnosis;
         TextView text_consultant;
         TextView text_dc_dest;
         //Should the seek bar be able to be adjusted from here? If not, it's better to use ProgressBar (Horizontal)
@@ -87,7 +86,6 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
             checkBox_webster = itemView.findViewById(R.id.checkBox_webster);
             text_name = itemView.findViewById(R.id.text_name);
             text_dc_date = itemView.findViewById(R.id.text_dc_date);
-            text_diagnosis = itemView.findViewById(R.id.text_diagnosis);
             text_consultant = itemView.findViewById(R.id.text_consultant);
             text_dc_dest = itemView.findViewById(R.id.text_dc_dest);
 

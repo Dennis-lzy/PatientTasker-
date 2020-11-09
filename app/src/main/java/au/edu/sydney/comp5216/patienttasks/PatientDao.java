@@ -15,6 +15,9 @@ public interface PatientDao {
     @Insert
     void insert(Patient patient);
 
+    @Delete
+    void delete(Patient patient);
+
     @Insert
     void insertAll(Patient... patients);
 

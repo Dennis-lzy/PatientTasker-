@@ -12,13 +12,12 @@ public interface TaskDao {
     @Query("SELECT * FROM task")
     List<Task> listAll();
 
-
     @Insert
     void insert(Task task);
 
     @Insert
     void insertAll(Task... tasks);
 
-    @Query("DELETE FROM task")
-    void deleteAll();
+    @Delete
+    void delete(Task task);
 }
