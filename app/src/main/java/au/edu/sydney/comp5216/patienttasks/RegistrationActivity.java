@@ -60,10 +60,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private void registerNewUser() {
         progressBar.setVisibility(View.VISIBLE);
 
-        final String email, password, pin, name;
+        final String email, password, name;
         email = emailTV.getText().toString();
         password = passwordTV.getText().toString();
-        pin = pinTV.getText().toString();
         name= nameTV.getText().toString();
 
 
@@ -130,7 +129,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void initializeUI() {
         nameTV = findViewById(R.id.text_name);
-        pinTV = findViewById(R.id.pin);
+
         emailTV = findViewById(R.id.email);
         passwordTV = findViewById(R.id.password);
         regBtn = findViewById(R.id.register);
