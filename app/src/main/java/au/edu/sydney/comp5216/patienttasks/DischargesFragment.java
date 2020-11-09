@@ -1,5 +1,6 @@
 package au.edu.sydney.comp5216.patienttasks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,12 @@ public class DischargesFragment extends Fragment implements DischargeViewAdapter
     public void onItemClick(View view, int position) {
         Toast.makeText(this.getContext(), "Editing patient " + adapter.patients.get(position).getPatientName() + " on row number " + position, Toast.LENGTH_SHORT).show();
 
-        //TODO: create intent for EditTaskActivity
+        Intent intent = new Intent(this.getContext(), EditPatientActivity.class);
+        intent.putExtra("editing", true);
+        intent.putExtra("patient", adapter.patients.get(position));
+
+        if (intent.resolveActivity(this.getContext().getPackageManager()) != null) {
+            startActivityForResult(intent, 0);
+        }
     }
 }
