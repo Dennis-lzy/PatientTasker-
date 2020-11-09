@@ -118,4 +118,12 @@ public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClick
         }
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Extract task position from result extras
+        int position = data.getIntExtra("position", -1);
+        adapter.tasks.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
 }

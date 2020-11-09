@@ -293,6 +293,16 @@ public class EditTaskActivity extends AppCompatActivity implements TaskViewAdapt
                                         Toast.LENGTH_SHORT)
                                         .show();
 
+                                int position = getIntent().getIntExtra("position", 0);
+                                // Prepare data intent for sending it back
+                                Intent data = new Intent();
+
+                                // Pass relevant data back as a result
+                                data.putExtra("position", position);
+
+                                // Activity finished ok, return the data
+                                setResult(RESULT_OK, data); // set result code and bundle data for response
+                                finish(); // closes the activity, pass data to parent
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

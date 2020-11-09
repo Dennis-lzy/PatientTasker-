@@ -26,7 +26,6 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
         this.mInflater = LayoutInflater.from(context);
 
         //load patients from database into the list (memory)
-        //TODO
         mContext = context;
     }
 
@@ -41,14 +40,18 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Patient p = patients.get(position);
-        //holder.name.setText(p.getPatientName());
-        //holder.mrn.setText("MRN: "+p.getPatientRefNumber());
-        //TODO: get patients that are currently pending discharge from the database
+        holder.text_dc_summary.setText("DC Summary");
+        holder.text_all_ready.setText("All Ready");
+        holder.text_meds_sent.setText("Meds Sent");
+        holder.checkBox_webster.setChecked(p.isPatientWebster());
+        holder.text_name.setText("Name: " + p.getPatientName());
+        holder.text_dc_date.setText("DC Date: " + p.getPatientDcDate());
+        holder.text_diagnosis.setText("Diagnosis: " + p.getPatientNotes());
+        holder.text_consultant.setText("Consultant: " + p.getPatientConsultant());
+        holder.text_dc_dest.setText("DC Dest: " + p.getPatientDcDest());
+
         //SELECT p.name, p.mrn, p.diagnosis, p.consultant, etc. FROM patients as p WHERE p.discharge = false
         //ie. exclude patients that have already been discharged
-
-        //holder.consultant.setText(p.getPatientConsultant());
-
     }
 
     // total number of rows
