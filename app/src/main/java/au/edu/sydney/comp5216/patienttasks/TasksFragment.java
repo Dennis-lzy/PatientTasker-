@@ -112,6 +112,7 @@ public class TasksFragment extends Fragment implements TaskViewAdapter.ItemClick
         Intent intent = new Intent(this.getContext(), EditTaskActivity.class);
         intent.putExtra("editing", true);
         intent.putExtra("task", adapter.tasks.get(position));
+        intent.putExtra("position", position);
 
         if (intent.resolveActivity(this.getContext().getPackageManager()) != null) {
             startActivityForResult(intent, 0);

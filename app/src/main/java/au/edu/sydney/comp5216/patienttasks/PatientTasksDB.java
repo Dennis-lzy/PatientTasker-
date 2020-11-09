@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {User.class, Patient.class, Task.class, Team.class, Team_User.class, SubTask.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Patient.class, Task.class, Team.class, Team_User.class, SubTask.class}, version = 2, exportSchema = false)
 public abstract class PatientTasksDB extends RoomDatabase {
     private static final String DATABASE_NAME = "patienttasks_db";
     private static PatientTasksDB DBINSTANCE;

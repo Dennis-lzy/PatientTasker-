@@ -173,6 +173,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
 
     public void onSave(View v) {
 
+
         //fetch data from the input fields
         nameEdit = findViewById(R.id.editText_task_name);
         dateEdit = findViewById(R.id.editText_due_date);
@@ -195,53 +196,72 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         task.setTaskPriority(priority);
         task.setTaskRepeat(repeat);
 
-        // insert task in database (async)
-        try {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().insert(task);
-                    Log.i("SQLite saved item", "Task: "+ task.getTaskName() + '\n');
-                    return null;
-                }
-            }.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (isEditing) {
 
-        if (MainActivity.tf != null) {
-            MainActivity.tf.adapter.notifyDataSetChanged();
-        }
-
-        //Add to Firebase
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //Need to add fields
-        Map<String, Object> patientTask = new HashMap<>();
-        patientTask.put("Name", name);
-        if (userSpin.getSelectedItem() != null) {
-            patientTask.put("Assigned to", userSpin.getSelectedItem());
-        }
-        if (patientSpin.getSelectedItem() != null) {
-            patientTask.put("Patient", patientSpin.getSelectedItem());
-        }
-        patientTask.put("Due Date", date);
-        patientTask.put("Priority", priority);
-        patientTask.put("Repeat", repeat);
-
-        db.collection("Tasks").document()
-                .set(patientTask)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            // insert task in database (async)
+            try {
+                new AsyncTask<Void, Void, Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    protected Void doInBackground(Void... voids) {
+                        Task oldTask = (Task) getIntent().getSerializableExtra("task");
+                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().delete(oldTask);
+                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().insert(task);
+                        Log.i("SQLite saved item", "Task: " + task.getTaskName() + '\n');
+                        return null;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
+                }.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // insert task in database (async)
+            try {
+                new AsyncTask<Void, Void, Void>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                    protected Void doInBackground(Void... voids) {
+                        PatientTasksDB.getDatabase(EditTaskActivity.this).taskDao().insert(task);
+                        Log.i("SQLite saved item", "Task: " + task.getTaskName() + '\n');
+                        return null;
                     }
-                });
+                }.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (MainActivity.tf != null) {
+                MainActivity.tf.adapter.notifyDataSetChanged();
+            }
+
+            //Add to Firebase
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            //Need to add fields
+            Map<String, Object> patientTask = new HashMap<>();
+            patientTask.put("Name", name);
+            if (userSpin.getSelectedItem() != null) {
+                patientTask.put("Assigned to", userSpin.getSelectedItem());
+            }
+            if (patientSpin.getSelectedItem() != null) {
+                patientTask.put("Patient", patientSpin.getSelectedItem());
+            }
+            patientTask.put("Due Date", date);
+            patientTask.put("Priority", priority);
+            patientTask.put("Repeat", repeat);
+
+            db.collection("Tasks").document()
+                    .set(patientTask)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
 
         setResult(RESULT_OK); // set result code
         finish(); // closes the activity, pass data to parent

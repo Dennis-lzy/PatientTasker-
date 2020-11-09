@@ -94,6 +94,7 @@ public class PatientsFragment extends Fragment implements PatientViewAdapter.Ite
         Intent intent = new Intent(this.getContext(), EditPatientActivity.class);
         intent.putExtra("editing", true);
         intent.putExtra("patient", adapter.patients.get(position));
+        intent.putExtra("position", position);
 
         if (intent.resolveActivity(this.getContext().getPackageManager()) != null) {
             startActivityForResult(intent, 0);
