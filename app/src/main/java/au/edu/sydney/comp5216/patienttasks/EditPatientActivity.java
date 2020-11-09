@@ -80,8 +80,7 @@ public class EditPatientActivity extends AppCompatActivity {
 
             mrn.setText(String.valueOf(p.getPatientRefNumber()));
 
-            //TODO: Add diagnosis field in database
-            //p.setDiagnosis(editText_diagnosis.getText().toString());
+            editText_diagnosis.setText(p.getDiagnosis());
             editText_notes.setText(p.getPatientNotes());
 
         } else {
@@ -138,8 +137,8 @@ public class EditPatientActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             return;
         }
-        //TODO: Add diagnosis field
-        //p.setDiagnosis(editText_diagnosis.getText().toString());
+
+        p.setDiagnosis(editText_diagnosis.getText().toString());
         p.setPatientNotes(editText_notes.getText().toString());
 
         if (isEditing) {
@@ -155,6 +154,10 @@ public class EditPatientActivity extends AppCompatActivity {
                     return null;
                 }
             }.execute();
+
+            if (MainActivity.pf != null) {
+                MainActivity.pf.adapter.notifyDataSetChanged();
+            }
         } else {
             //add new patient (automatically sets a new primary key as the next available integer? Or does that have to be done here?)
             new AsyncTask<Void, Void, Void>() {
@@ -167,6 +170,9 @@ public class EditPatientActivity extends AppCompatActivity {
             }.execute();
 
             isEditing = true;
+            if (MainActivity.pf != null) {
+                MainActivity.pf.adapter.notifyDataSetChanged();
+            }
         }
 
         //Make updates to firebase

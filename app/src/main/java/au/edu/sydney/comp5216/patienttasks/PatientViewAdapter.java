@@ -19,6 +19,8 @@ public class PatientViewAdapter extends RecyclerView.Adapter<PatientViewAdapter.
 
     // Keep all Patients in list
     public List<PatientWithTaskCount> patients = new ArrayList<>();
+    public List<PatientWithTaskCount> fullPatients;
+
     private Context mContext;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
