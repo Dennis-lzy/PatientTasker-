@@ -41,7 +41,10 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Patient p = patients.get(position);
-        //holder.name.setText(p.getPatientName());
+        holder.text_name.setText(p.getPatientName());
+        holder.text_dc_date.setText(p.getPatientDcDate());
+        holder.text_dc_dest.setText(p.getPatientDcDest());
+        holder.text_consultant.setText(p.getPatientConsultant());
         //holder.mrn.setText("MRN: "+p.getPatientRefNumber());
         //TODO: get patients that are currently pending discharge from the database
         //SELECT p.name, p.mrn, p.diagnosis, p.consultant, etc. FROM patients as p WHERE p.discharge = false
