@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_GO_TEAMS = 2;
     private static final int REQUEST_CODE_GO_SETTINGS = 3;
 
-    PatientsFragment pf;
-    TasksFragment tf;
-    DischargesFragment df;
+    static PatientsFragment pf;
+    static TasksFragment tf;
+    static DischargesFragment df;
 
     Button registerBtn, loginBtn;
 
