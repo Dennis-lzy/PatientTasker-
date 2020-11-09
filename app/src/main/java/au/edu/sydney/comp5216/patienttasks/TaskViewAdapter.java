@@ -71,6 +71,9 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
                 }
             }
         });
+        if (task.isTaskCompleted()) {
+            holder.subtask.setChecked(true);
+        }
     }
 
     // total number of rows

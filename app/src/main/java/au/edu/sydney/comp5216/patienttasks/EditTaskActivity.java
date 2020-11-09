@@ -73,9 +73,12 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         userIDs = new ArrayList<>();
         priorities = new ArrayList<>();
         repeats = new ArrayList<>();
-        for (int i = 1 ; i < 11; i++) {
+        /*for (int i = 1 ; i < 11; i++) {
             priorities.add(Integer.toString(i));
-        }
+        }*/
+        priorities.add("High");
+        priorities.add("Medium");
+        priorities.add("Low");
         repeats.add("Yes");
         repeats.add("No");
 
@@ -106,6 +109,27 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         userSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpin.setAdapter(userSpinAdapter);
 
+        // populate patients spinner
+        patientSpin = findViewById(R.id.spinner_patient_select);
+        patientSpinAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, patients);
+        patientSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        patientSpin.setAdapter(patientSpinAdapter);
+
+        // populate priority spinner
+        prioritySpin = findViewById(R.id.spinner_priority);
+        prioSpinAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, priorities);
+        prioSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prioritySpin.setAdapter(prioSpinAdapter);
+
+        // populate repeat spinner
+        repeatSpin = findViewById(R.id.spinner_repeat);
+        repeatSpinAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, repeats);
+        repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        repeatSpin.setAdapter(repeatSpinAdapter);
+
         //has the patient already been provided or not? (ie. does the dropdown menu have to be used or not)
         Serializable p = getIntent().getSerializableExtra("patient");
 
@@ -116,6 +140,18 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
             tpHolder = tp;
             patients.add(tp.getPatientName() + ", " + tp.getPatientMRN());
             patientIDs.add(tp.getTask_patientID());
+
+            nameEdit = findViewById(R.id.editText_task_name);
+            dateEdit = findViewById(R.id.editText_due_date);
+            nameEdit.setText(tp.getTaskName());
+            dateEdit.setText(tp.getTaskDueDate());
+            prioritySpin.setSelection(tp.getTaskPriority()-1);
+            if (tp.getTaskRepeat().equalsIgnoreCase("yes")) {
+                repeatSpin.setSelection(0);
+            } else {
+                repeatSpin.setSelection(1);
+            }
+
         } else {
 
             if (p instanceof String && ((String) p).isEmpty()) {
@@ -146,26 +182,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
             }
         }
 
-        // populate patients spinner
-        patientSpin = findViewById(R.id.spinner_patient_select);
-        patientSpinAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, patients);
-        patientSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        patientSpin.setAdapter(patientSpinAdapter);
 
-        // populate priority spinner
-        prioritySpin = findViewById(R.id.spinner_priority);
-        prioSpinAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, priorities);
-        prioSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        prioritySpin.setAdapter(prioSpinAdapter);
-
-        // populate repeat spinner
-        repeatSpin = findViewById(R.id.spinner_repeat);
-        repeatSpinAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, repeats);
-        repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        repeatSpin.setAdapter(repeatSpinAdapter);
 
         subtaskView = findViewById(R.id.recyclerview_subtasks);
         subtaskView.setLayoutManager(new LinearLayoutManager(EditTaskActivity.this));
@@ -210,7 +227,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
             int patient = patientIDs.get(patientSpin.getSelectedItemPosition());
             task.setTask_patientID(patient);
         }
-        Integer priority = Integer.parseInt(prioritySpin.getSelectedItem().toString());
+        int priority = prioritySpin.getSelectedItemPosition();
         String repeat = repeatSpin.getSelectedItem().toString();
 
         String date = dateEdit.getText().toString();
