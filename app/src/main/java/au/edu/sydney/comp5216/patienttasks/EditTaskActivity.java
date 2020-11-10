@@ -130,6 +130,12 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
         repeatSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repeatSpin.setAdapter(repeatSpinAdapter);
 
+        subtaskAdapter = new SubtaskViewAdapter(this);
+        subtaskAdapter.setClickListener(this);
+        subtaskView = findViewById(R.id.recyclerview_subtasks);
+        subtaskView.setLayoutManager(new LinearLayoutManager(this));
+        subtaskView.setAdapter(subtaskAdapter);
+
         //has the patient already been provided or not? (ie. does the dropdown menu have to be used or not)
         Serializable p = getIntent().getSerializableExtra("patient");
 
@@ -342,7 +348,7 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
                     public void onClick(DialogInterface dialogInterface, int i) {
                         final String subtaskText = enter.getText().toString();
                         final SubTask st = new SubTask(subtaskText);
-                        st.setSubTask_TaskID(tpHolder.getTaskID());
+                        //st.setSubTask_TaskID(tpHolder.getTaskID());
                         try {
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
