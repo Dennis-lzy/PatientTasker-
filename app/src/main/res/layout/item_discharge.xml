@@ -5,57 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/text_dc_summary"
+    <CheckBox
+        android:id="@+id/checkBox_dc_summ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/dc_summary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_dc_progress" />
-
-    <TextView
-        android:id="@+id/text_all_ready"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/all_ready"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/dc_summ"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_dc_progress" />
+        app:layout_constraintTop_toBottomOf="@+id/text_dc_dest" />
 
-    <TextView
-        android:id="@+id/text_meds_sent"
+    <CheckBox
+        android:id="@+id/checkBox_meds_sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/meds_sent"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_dc_progress" />
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:text="@string/meds_sent" />
 
     <CheckBox
         android:id="@+id/checkBox_webster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:button="@null"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar_dc_progress"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/text_diagnosis"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_consultant"
         tools:text="Webster" />
 
     <TextView
@@ -67,6 +48,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
+
+    <TextView
+        android:id="@+id/text_mrn_dcview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/mrn" />
 
     <TextView
         android:id="@+id/text_dc_date"
@@ -85,7 +76,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_mrn_dcview"
         tools:text="Dx: Asthma" />
 
     <TextView
@@ -93,10 +84,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox_webster"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBox_webster"
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
         tools:text="Dr Smith" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -119,20 +109,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar_dc_progress"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/text_dc_date"
         tools:text="DC dest: Home" />
-
-    <SeekBar
-        android:id="@+id/seekBar_dc_progress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/text_consultant" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
