@@ -1,5 +1,10 @@
 package au.edu.sydney.comp5216.patienttasks;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,27 +15,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import android.widget.Toast;
 
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+//Firebase
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
-//Firebase
+import java.util.List;
 
 
 public class MainActivitySignedOn extends AppCompatActivity {
@@ -162,18 +169,43 @@ public class MainActivitySignedOn extends AppCompatActivity {
                             if (pf.adapter.fullPatients != null) {
                                 pf.adapter.patients = pf.adapter.fullPatients;
                                 pf.adapter.fullPatients = null;
+
                             }
                             if (i == 0) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp1);
                             } else if (i == 1) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp2);
                             } else if (i == 2) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp3);
                             } else if (i == 3) {
                                 pf.adapter.fullPatients = pf.adapter.patients;
                                 pf.adapter.patients = new ArrayList<>();
                                 for (PatientWithTaskCount in : pf.adapter.fullPatients) {
-                                    if (!in.isPatientDischarged()) {
+                                    if (in.isPatientDischarged()) {
                                         pf.adapter.patients.add(in);
                                     }
                                 }
@@ -210,7 +242,7 @@ public class MainActivitySignedOn extends AppCompatActivity {
                                 tf.adapter.tasks = tf.adapter.fullTasks;
                                 tf.adapter.fullTasks = null;
                             }
-                            Log.i("Sort/Filter tasks", String.valueOf(i));
+                            Log.i("Sort/Filter tasks", String.valueOf(i)+","+String.valueOf(b));
                             tf.adapter.notifyDataSetChanged();
                         }
                     }
