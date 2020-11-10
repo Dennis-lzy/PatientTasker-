@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:button="@null"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/meds_sent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        tools:text="@string/meds_sent" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <CheckBox
         android:id="@+id/checkBox_webster"
@@ -35,9 +35,9 @@
         android:layout_marginTop="8dp"
         android:button="@null"
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/webster"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_consultant"
-        tools:text="Webster" />
+        app:layout_constraintTop_toBottomOf="@+id/text_consultant" />
 
     <TextView
         android:id="@+id/text_name"

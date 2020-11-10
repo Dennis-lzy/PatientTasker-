@@ -67,9 +67,6 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView text_dc_summary;
-        TextView text_all_ready;
-        TextView text_meds_sent;
         CheckBox checkBox_webster;
         TextView text_name;
         TextView text_dc_date;
@@ -80,9 +77,6 @@ public class DischargeViewAdapter extends RecyclerView.Adapter<DischargeViewAdap
 
         ViewHolder(View itemView) {
             super(itemView);
-            text_dc_summary = itemView.findViewById(R.id.text_dc_summary);
-            text_all_ready = itemView.findViewById(R.id.text_all_ready);
-            text_meds_sent = itemView.findViewById(R.id.text_meds_sent);
             checkBox_webster = itemView.findViewById(R.id.checkBox_webster);
             text_name = itemView.findViewById(R.id.text_name);
             text_dc_date = itemView.findViewById(R.id.text_dc_date);
