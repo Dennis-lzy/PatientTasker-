@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     UserDao userDao;
     PatientDao patientDao;
     TaskDao taskDao;
-
+    private static final int REQUEST_CODE = 123;
     private FirebaseFirestore mFirestore;
     private Query mQuery;
 
@@ -257,6 +257,18 @@ public class MainActivity extends AppCompatActivity {
 
                 });
         builder.create().show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == EnterPinActivity.RESULT_BACK_PRESSED) {
+                    Toast.makeText(MainActivity.this, "back pressed", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
     }
 
     public void onSortFilterDischarges(View v) {
