@@ -50,6 +50,7 @@
     <string name="team_management">Team Management</string>
 
     <string name="prompt">Select Team</string>
+    <string name="webster">Webster</string>
     <string-array name="team_arrays">
         <item>Cardiology</item>
         <item>Neurology</item>
