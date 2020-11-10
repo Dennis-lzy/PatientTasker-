@@ -177,18 +177,43 @@ public class MainActivity extends AppCompatActivity {
                             if (pf.adapter.fullPatients != null) {
                                 pf.adapter.patients = pf.adapter.fullPatients;
                                 pf.adapter.fullPatients = null;
+
                             }
                             if (i == 0) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp1);
                             } else if (i == 1) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp2);
                             } else if (i == 2) {
+                                pf.adapter.fullPatients = pf.adapter.patients;
+                                pf.adapter.patients = new ArrayList<>();
+                                for (PatientWithTaskCount in : pf.adapter.fullPatients) {
+                                    if (!in.isPatientDischarged()) {
+                                        pf.adapter.patients.add(in);
+                                    }
+                                }
+
                                 pf.adapter.patients.sort(cp3);
                             } else if (i == 3) {
                                 pf.adapter.fullPatients = pf.adapter.patients;
                                 pf.adapter.patients = new ArrayList<>();
                                 for (PatientWithTaskCount in : pf.adapter.fullPatients) {
-                                    if (!in.isPatientDischarged()) {
+                                    if (in.isPatientDischarged()) {
                                         pf.adapter.patients.add(in);
                                     }
                                 }

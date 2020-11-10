@@ -184,29 +184,29 @@ public class EditTaskActivity extends AppCompatActivity implements SubtaskViewAd
 
 
 
-        subtaskView = findViewById(R.id.recyclerview_subtasks);
-        subtaskView.setLayoutManager(new LinearLayoutManager(EditTaskActivity.this));
-        subtaskAdapter = new SubtaskViewAdapter(this.getApplicationContext());
-
-        try {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    List<SubTask> taskDB = PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().listWhere(tpHolder.getTaskID());
-                    Log.i("Patients", "Database query for subtasks retrieved " + taskDB.size() + " patients.");
-                    subtaskAdapter.subtasks.addAll(taskDB);
-                    subtaskAdapter.notifyDataSetChanged();
-                    return null;
-                }
-            }.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        subtaskAdapter.setClickListener(this);
-        subtaskView.setAdapter(subtaskAdapter);
+//        subtaskView = findViewById(R.id.recyclerview_subtasks);
+//        subtaskView.setLayoutManager(new LinearLayoutManager(EditTaskActivity.this));
+//        subtaskAdapter = new SubtaskViewAdapter(this.getApplicationContext());
+//
+//        try {
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... voids) {
+//                    List<SubTask> taskDB = PatientTasksDB.getDatabase(EditTaskActivity.this).subTaskDao().listWhere(tpHolder.getTaskID());
+//                    Log.i("Patients", "Database query for subtasks retrieved " + taskDB.size() + " patients.");
+//                    subtaskAdapter.subtasks.addAll(taskDB);
+//                    subtaskAdapter.notifyDataSetChanged();
+//                    return null;
+//                }
+//            }.execute().get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        subtaskAdapter.setClickListener(this);
+//        subtaskView.setAdapter(subtaskAdapter);
 
 
     }
